@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>LPhone-测试</title>
+    <title>LPhone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style id="global-theme-style"></style> <!-- 全局自定义主题注入点 -->
     <style>
@@ -29,14 +29,13 @@
             --avatar-shape: 6px;
             --chat-background-image: none;
             --home-screen-background-image: url('https://source.unsplash.com/random/380x820?gradient');
-            --lock-screen-wallpaper: url('https://source.unsplash.com/random/380x820?night,sky');
-            --home-screen-font-color: #FFFFFF;
-            --global-font-color: var(--wechat-text-primary);
+            --lock-screen-wallpaper: url('https://source.unsplash.com/random/380x820?night,sky'); /* NEW: 锁屏壁纸 */
+            --home-screen-font-color: #FFFFFF; /* NEW: 主屏幕字体颜色 */
+            --global-font-color: var(--wechat-text-primary); /* NEW: 全局字体颜色 */
             --player-image: url('https://img.heliar.top/file/1764067235404_Screenshot_2025_1125_183413.png');
             --player-background: url('https://img.heliar.top/file/1764067231296_Screenshot_2025_1125_183056.png');
             --user-custom-font: 'UserCustomFont', -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
             --font-size-base: 15px;
-            --battery-icon-image: none; /* NEW */
 
             /* 手机边框变量 */
             --phone-border-color: #111;
@@ -56,18 +55,19 @@
         }
 
         /* --- 主题 --- */
+        /* 夜间模式 */
         body.dark-mode {
             --wechat-bg: #121212;
             --wechat-nav-bg: #1E1E1E;
             --wechat-border-color: #3A3A3C;
             --wechat-text-primary: #EAEAEA;
             --wechat-text-secondary: #8E8E93;
-            --global-font-color: #EAEAEA;
+            --global-font-color: #EAEAEA; /* MODIFIED */
         }
         body.dark-mode .list-item, body.dark-mode .me-profile-card, body.dark-mode .me-menu-item, body.dark-mode .chat-input-bar, body.dark-mode .modal-content, body.dark-mode .form-group input, body.dark-mode .form-group textarea, body.dark-mode .form-group select, body.dark-mode .moment-post, body.dark-mode .bank-card { background-color: var(--wechat-nav-bg); color: var(--global-font-color); }
         body.dark-mode .message-row.received .message-bubble.text-bubble { background-color: var(--wechat-nav-bg); }
         body.dark-mode .message-row.received .message-bubble.text-bubble::after { background: var(--wechat-nav-bg); }
-        body.dark-mode .message-recalled, body.dark-mode .message-system, body.dark-mode .message-poke { background: #333; color: var(--wechat-text-secondary); }
+        body.dark-mode .message-recalled, body.dark-mode .message-system { background: #333; color: var(--wechat-text-secondary); }
         body.dark-mode .list-item:active, body.dark-mode .me-menu-item:active { background-color: #2c2c2c; }
         body.dark-mode .chat-input-bar input { background: #333; color: var(--global-font-color); }
         body.dark-mode .chat-plus-menu { background: #252525; }
@@ -78,6 +78,7 @@
         body.dark-mode .message-bubble.camera-sim-bubble, body.dark-mode .message-bubble.location-bubble { background: #2c2c2e; border-color: #3a3a3c; }
         body.dark-mode .message-bubble.location-bubble .map-placeholder { background-color: #3a3a3c; }
         
+        /* 可爱樱花粉主题 */
         body.sakura-pink-mode { --wechat-bg: #FFF0F5; --wechat-nav-bg: #FFC0CB; --wechat-border-color: #FFB6C1; --wechat-text-primary: #333333; --wechat-text-secondary: #8B4513; --wechat-green: #FF69B4; --wechat-blue: #DB7093; --global-font-color: #333333; }
         body.sakura-pink-mode .list-item, body.sakura-pink-mode .me-profile-card, body.sakura-pink-mode .me-menu-item, body.sakura-pink-mode .chat-input-bar, body.sakura-pink-mode .modal-content, body.sakura-pink-mode .form-group input, body.sakura-pink-mode .form-group textarea, body.sakura-pink-mode .form-group select, body.sakura-pink-mode .moment-post, body.sakura-pink-mode .bank-card { background-color: #FFFFFF; color: var(--global-font-color); }
         body.sakura-pink-mode .message-row.sent .message-bubble.text-bubble { background-color: #FFDFE5; }
@@ -85,13 +86,16 @@
         body.sakura-pink-mode .message-row.received .message-bubble.text-bubble { background-color: #FFFFFF; }
         body.sakura-pink-mode .message-row.received .message-bubble.text-bubble::after { background: #FFFFFF; }
 
+        /* 透明主题 */
         body.transparent-mode { --wechat-bg: transparent; --wechat-nav-bg: transparent; --wechat-border-color: rgba(255, 255, 255, 0.2); --wechat-text-primary: #FFFFFF; --wechat-text-secondary: #CCCCCC; --global-font-color: #FFFFFF; }
         body.transparent-mode .wallet-header { background-color: transparent; }
 
+        /* 拟态主题 */
         body.neumorphic-mode { --wechat-bg: #e0e5ec; --wechat-nav-bg: #e0e5ec; --wechat-border-color: transparent; --wechat-text-primary: #555; --wechat-text-secondary: #999; --global-font-color: #555; }
         body.neumorphic-mode .list-item, body.neumorphic-mode .me-profile-card, body.neumorphic-mode .me-menu-item, body.neumorphic-mode .chat-input-bar, body.neumorphic-mode .modal-content, body.neumorphic-mode .form-group input, body.neumorphic-mode .form-group textarea, body.neumorphic-mode .form-group select, body.neumorphic-mode .moment-post, body.neumorphic-mode .message-bubble, body.neumorphic-mode .wechat-header, body.neumorphic-mode .wechat-tabbar, body.neumorphic-mode .bank-card { background: #e0e5ec; box-shadow: 7px 7px 15px #a3b1c6, -7px -7px 15px #ffffff; border: none; }
         body.neumorphic-mode .message-row.sent .message-bubble { box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff; }
 
+        /* ^•͈༝•^ฅ 主题 */
         body.clear-sky-blue-mode { --wechat-bg: #E1F5FE; --wechat-nav-bg: #B3E5FC; --wechat-border-color: #81D4FA; --wechat-text-primary: #01579B; --wechat-text-secondary: #4FC3F7; --wechat-green: #0288D1; --wechat-blue: #03A9F4; --global-font-color: #01579B; }
         body.clear-sky-blue-mode .list-item, body.clear-sky-blue-mode .me-profile-card, body.clear-sky-blue-mode .me-menu-item, body.clear-sky-blue-mode .chat-input-bar, body.clear-sky-blue-mode .modal-content, body.clear-sky-blue-mode .form-group input, body.clear-sky-blue-mode .form-group textarea, body.clear-sky-blue-mode .form-group select, body.clear-sky-blue-mode .moment-post, body.clear-sky-blue-mode .bank-card { background-color: #FFFFFF; }
         body.clear-sky-blue-mode .message-row.sent .message-bubble.text-bubble { background-color: #81D4FA; }
@@ -99,6 +103,7 @@
         body.clear-sky-blue-mode .message-row.received .message-bubble.text-bubble { background-color: #FFFFFF; }
         body.clear-sky-blue-mode .message-row.received .message-bubble.text-bubble::after { background: #FFFFFF; }
 
+        /* 暗黑深渊 */
         body.dark-abyss-mode { --wechat-bg: transparent; --wechat-nav-bg: rgba(20, 20, 20, 0.75); --wechat-border-color: rgba(80, 80, 80, 0.5); --wechat-text-primary: #EAEAEA; --wechat-text-secondary: #A0A0A0; --wechat-green: #00E676; --wechat-blue: #64B5F6; --page-bg-general: url('https://img.heliar.top/file/1764067333851_Screenshot_2025_1125_182817.png'); --page-bg-special: url('https://img.heliar.top/file/1764067588537_Screenshot_2025_1125_181851.png'); --global-font-color: #EAEAEA; }
         body.dark-abyss-mode .screen { background-image: var(--page-bg-general); background-size: cover; background-position: center; }
         body.dark-abyss-mode .page { background-color: transparent; }
@@ -116,9 +121,11 @@
 
         body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #333; margin: 0; font-family: var(--user-custom-font); font-size: var(--font-size-base); overflow: hidden; }
 
+        /* --- 手机外壳 --- */
         .phone-container { width: var(--phone-width); height: var(--phone-height); background: var(--phone-border-color); border-radius: 44px; box-shadow: var(--phone-shadow), 0 0 0 1px var(--phone-edge-highlight); display: flex; flex-direction: column; overflow: hidden; position: relative; border: var(--phone-border-width) solid var(--phone-border-color); transition: all 0.3s ease; backdrop-filter: var(--phone-backdrop-filter, none); }
         .screen { width: 100%; height: 100%; display: flex; flex-direction: column; position: relative; background-color: var(--wechat-bg); border-radius: 34px; overflow: hidden; }
         
+        /* --- 状态栏 --- */
         .status-bar { height: 30px; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; color: black; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; font-weight: 500; position: absolute; top: 0; left: 0; right: 0; z-index: 100; }
         body.dark-mode .status-bar, body.transparent-mode .status-bar, body.dark-abyss-mode .status-bar { color: white; }
         .status-bar-left { display: flex; align-items: center; gap: 8px; }
@@ -126,9 +133,7 @@
         .status-bar .time { font-size: 14px; }
         .status-bar .network-icon i { font-size: 14px; }
         .status-bar .dnd-icon i { font-size: 12px; }
-        .battery-icon { width: 24px; height: 11px; border: 1px solid black; border-radius: 2.5px; position: relative; display: flex; align-items: center; background-image: var(--battery-icon-image); background-size: contain; background-repeat: no-repeat; background-position: center; }
-        .battery-icon.custom-icon { border: none; }
-        .battery-icon.custom-icon::after { display: none; }
+        .battery-icon { width: 24px; height: 11px; border: 1px solid black; border-radius: 2.5px; position: relative; display: flex; align-items: center; }
         body.dark-mode .battery-icon, body.transparent-mode .battery-icon, body.dark-abyss-mode .battery-icon { border-color: white; }
         .battery-icon::after { content: ''; width: 1.5px; height: 4px; background-color: black; border-radius: 0 1px 1px 0; position: absolute; right: -3px; top: 50%; transform: translateY(-50%); }
         body.dark-mode .battery-icon::after, body.transparent-mode .battery-icon::after, body.dark-abyss-mode .battery-icon::after { background-color: white; }
@@ -136,11 +141,10 @@
         body.dark-mode .battery-fill, body.transparent-mode .battery-fill, body.dark-abyss-mode .battery-fill { background-color: white; }
         .battery-fill.charging, .battery-fill.low { background-color: #07C160; }
         .battery-fill.low { background-color: #FA5151; }
-        .battery-percent { font-size: 9px; color: white; mix-blend-mode: difference; }
-        .battery-percent.outside { position: absolute; right: 30px; font-size: 14px; color: inherit; mix-blend-mode: normal; }
-        .battery-percent.inside { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+        .battery-percent { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 9px; color: white; mix-blend-mode: difference; }
 
-        .page { position: absolute; inset: 0; background-color: var(--wechat-bg); display: none; flex-direction: column; z-index: 10; transform: translateX(100%); transition: transform 0.3s ease-in-out; padding-top: 30px; }
+        /* --- 页面 & 导航 --- */
+        .page { position: absolute; inset: 0; background-color: var(--wechat-bg); display: none; flex-direction: column; z-index: 10; transform: translateX(100%); transition: transform 0.3s ease-in-out; padding-top: 30px; /* 为状态栏留出空间 */ }
         .page.active { display: flex; transform: translateX(0); }
         .page.no-transition { transition: none; }
         .page.sub-page { z-index: 20; }
@@ -158,6 +162,7 @@
         .tab-item i { font-size: 22px; }
         .tab-item span { font-size: 10px; }
 
+        /* --- 锁屏 & 主屏幕 (NEW & MODIFIED) --- */
         #lock-screen-page { background-image: var(--lock-screen-wallpaper); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 80px 20px; box-sizing: border-box; z-index: 1000; }
         .lock-screen-time { color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5); text-align: center; }
         .lock-screen-time .time { font-size: 80px; font-weight: 200; }
@@ -175,12 +180,13 @@
 
         #home-screen-page { background-image: var(--home-screen-background-image); background-size: cover; background-position: center; }
         #home-screen-page .content-area { display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding-top: 50px; }
-        #home-screen-time { font-size: 50px; font-weight: 300; color: var(--home-screen-font-color); text-shadow: 0 1px 5px rgba(0,0,0,0.3); }
+        #home-screen-time { font-size: 50px; font-weight: 300; color: var(--home-screen-font-color); text-shadow: 0 1px 5px rgba(0,0,0,0.3); } /* NEW */
         .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--app-icon-gap); padding: 20px; }
         .app-icon { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; text-align: center; }
         .app-icon .icon-bg { width: var(--app-icon-size); height: var(--app-icon-size); border-radius: var(--app-icon-radius); background-size: cover; background-position: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .app-icon .app-name { font-size: 12px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
 
+        /* --- 激活弹窗 --- */
         #activation-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(5px); }
         .activation-content { background: linear-gradient(135deg, #e0f7fa 0%, #fce4ec 100%); padding: 30px; border-radius: 20px; width: 300px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .activation-content .cake-icon { width: 80px; height: 80px; margin-bottom: 20px; }
@@ -188,15 +194,19 @@
         .activation-input { width: 100%; padding: 12px; border: 1px solid #FFB6C1; border-radius: 10px; text-align: center; font-size: 18px; text-transform: uppercase; box-sizing: border-box; }
         .activation-btn { width: 100%; padding: 12px; border: none; border-radius: 10px; background: #FF69B4; color: white; font-size: 16px; cursor: pointer; margin-top: 20px; }
 
+        /* --- 聊天气泡分离样式 --- */
         .message-bubble { position: relative; padding: 10px 14px; font-size: var(--font-size-base); line-height: 1.4; max-width: calc(var(--phone-width) - 120px); word-break: break-word; border-radius: 6px; user-select: none; color: var(--global-font-color); }
+        /* 默认文本气泡 */
         .message-row.sent .message-bubble.text-bubble { background: #96d35f; color: #000; }
         .message-row.received .message-bubble.text-bubble { background: #ffffff; color: #000; }
         .message-row.sent .message-bubble.text-bubble::after { content: ""; position: absolute; right: -6px; top: 12px; width: 8px; height: 12px; background: #96d35f; clip-path: polygon(0 0, 100% 50%, 0 100%); }
         .message-row.received .message-bubble.text-bubble::after { content: ""; position: absolute; left: -6px; top: 12px; width: 8px; height: 12px; background: #ffffff; clip-path: polygon(100% 0, 0 50%, 100% 100%); }
+        /* 图片/表情气泡 */
         .message-bubble.image-bubble, .message-bubble.sticker-bubble { padding: 0; background: transparent !important; border-radius: 8px; overflow: hidden; }
         .message-bubble.image-bubble img, .message-bubble.sticker-bubble img { max-width: 150px; border-radius: 6px; display: block; }
         .message-bubble.sticker-bubble img { max-width: 120px; }
         .message-bubble.image-bubble::after, .message-bubble.sticker-bubble::after { display: none; }
+        /* 语音气泡 */
         .message-bubble.voice-bubble { display: flex; align-items: center; gap: 8px; min-width: 80px; }
         .voice-bubble-content { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .voice-bubble-content .waveform { display: flex; align-items: center; height: 20px; overflow: hidden; }
@@ -207,6 +217,7 @@
         .voice-bubble-content .duration { font-size: 14px; }
         .message-row.sent .voice-bubble-content .duration { color: #000; }
         .message-row.received .voice-bubble-content .duration { color: var(--wechat-text-secondary); }
+        /* 转账/红包气泡 */
         .transfer-bubble, .redpacket-bubble { background-color: var(--special-orange-bg); color: white; width: 230px; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; cursor: pointer; }
         .transfer-bubble .main, .redpacket-bubble .main { display: flex; align-items: center; gap: 10px; }
         .transfer-bubble .icon, .redpacket-bubble .icon { font-size: 36px; color: white; }
@@ -214,17 +225,20 @@
         .transfer-bubble .amount, .redpacket-bubble .amount { font-size: 18px; font-weight: 500; color: white; }
         .transfer-bubble .remark, .redpacket-bubble .remark { font-size: 14px; color: white; margin-top: 2px; }
         .transfer-bubble .footer, .redpacket-bubble .footer { font-size: 12px; color: white; padding-top: 8px; margin-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.3); }
+        /* 礼物气泡 */
         .gift-bubble { background-color: #fff; border: 1px solid #f0f0f0; width: 240px; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .gift-bubble .icon { font-size: 40px; color: #FFB347; }
         .gift-bubble .details { flex: 1; }
         .gift-bubble .details .name { font-size: 16px; font-weight: 500; color: var(--global-font-color); }
         .gift-bubble .details .desc { font-size: 13px; color: var(--wechat-text-secondary); margin-top: 4px; }
         body.dark-mode .gift-bubble { background-color: #2c2c2e; border-color: #3a3a3c; }
+        /* 聊天记录气泡 */
         .forwarded-message-bubble { background: #fff; color: var(--global-font-color); padding: 10px 14px; border-radius: 6px; border: 0.5px solid var(--wechat-border-color); max-width: calc(var(--phone-width) - 120px); word-break: break-word; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
         .forwarded-message-bubble .forward-title { font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 4px; margin-bottom: 4px; width: 100%; }
         .forwarded-message-bubble .forward-content-preview { font-size: 13px; color: var(--wechat-text-secondary); }
         body.dark-mode .forwarded-message-bubble { background: var(--wechat-nav-bg); border-color: var(--wechat-border-color); }
         body.dark-mode .forwarded-message-bubble .forward-title { border-bottom-color: var(--wechat-border-color); }
+        /* 小票气泡 */
         .receipt-bubble { background-color: #fff; border: 1px solid #f0f0f0; width: 260px; border-radius: 8px; padding: 0; overflow: hidden; font-family: monospace; }
         .receipt-bubble .header { background: #333; color: white; padding: 8px 12px; font-weight: bold; display: flex; justify-content: space-between; }
         .receipt-bubble .items { padding: 12px; font-size: 13px; line-height: 1.6; border-bottom: 1px dashed #ccc; }
@@ -234,6 +248,7 @@
         body.dark-mode .receipt-bubble { background-color: #2c2c2e; border-color: #3a3a3c; }
         body.dark-mode .receipt-bubble .header { background: #111; }
         body.dark-mode .receipt-bubble .footer { background: #222; }
+        /* 其他通用样式 */
         .list-item { display: flex; align-items: center; padding: 10px 15px; gap: 12px; border-bottom: 0.5px solid var(--wechat-border-color); cursor: pointer; position: relative; background-color: var(--wechat-nav-bg); }
         .list-item:active { background-color: var(--wechat-bg); }
         .list-item .avatar { width: 48px; height: 48px; border-radius: var(--avatar-shape); object-fit: cover; }
@@ -264,7 +279,7 @@
         #scroll-to-bottom-btn { display: none; }
         .message-row { display: flex; flex-direction: column; margin-bottom: 5px; max-width: 100%; }
         .message-timestamp { text-align: center; color: var(--wechat-text-secondary); font-size: calc(var(--font-size-base) - 3px); margin: 10px 0; }
-        .message-recalled, .message-system, .message-poke { text-align: center; color: var(--wechat-text-secondary); font-size: calc(var(--font-size-base) - 3px); margin: 10px 0; background: rgba(0,0,0,0.1); padding: 4px 8px; border-radius: 4px; display: inline-block; align-self: center; }
+        .message-recalled, .message-system { text-align: center; color: var(--wechat-text-secondary); font-size: calc(var(--font-size-base) - 3px); margin: 10px 0; background: rgba(0,0,0,0.1); padding: 4px 8px; border-radius: 4px; display: inline-block; align-self: center; }
         .message-body { display: flex; align-items: flex-start; gap: 10px; }
         .message-row.sent { align-items: flex-end; }
         .message-row.sent .message-body { flex-direction: row-reverse; }
@@ -490,7 +505,7 @@
                 <div class="status-bar-right">
                     <span class="dnd-icon" id="status-bar-dnd"><i class="fas fa-moon"></i></span>
                     <span class="network-icon" id="status-bar-network"><i class="fas fa-wifi"></i></span>
-                    <div class="battery-icon" id="battery-icon">
+                    <div class="battery-icon">
                         <div class="battery-fill" id="battery-fill"></div>
                         <span class="battery-percent" id="battery-percent">100</span>
                     </div>
@@ -606,9 +621,8 @@
             <div id="app-icon-settings-page" class="page sub-page form-page"></div>
             <div id="wallpaper-settings-page" class="page sub-page form-page"></div>
             <div id="app-layout-settings-page" class="page sub-page form-page"></div>
-            <div id="lock-screen-settings-page" class="page sub-page form-page"></div>
-            <div id="font-color-settings-page" class="page sub-page form-page"></div>
-            <div id="battery-settings-page" class="page sub-page form-page"></div> <!-- NEW -->
+            <div id="lock-screen-settings-page" class="page sub-page form-page"></div> <!-- NEW -->
+            <div id="font-color-settings-page" class="page sub-page form-page"></div> <!-- NEW -->
 
             <!-- 模态框容器 -->
             <div id="modal-container"></div>
@@ -638,7 +652,7 @@
     <script>
         // ========== 通用数据管理器 (IndexedDB) ==========
         class UniversalDataManager {
-            constructor(dbName = 'WeChatSimulatorDB_v19', storeName = 'appDataStore') { // Version bump
+            constructor(dbName = 'WeChatSimulatorDB_v18', storeName = 'appDataStore') { // Version bump
                 this.dbName = dbName;
                 this.storeName = storeName;
                 this.db = null;
@@ -757,25 +771,25 @@
                     globalThemeArchives: [{css:''}, {css:''}, {css:''}],
                     activeGlobalThemeSlot: -1,
                     fontUrl: '', fontFile: null, fontSize: 15,
-                    globalFontColor: '#000000',
+                    globalFontColor: '#000000', // NEW
                     screenWidth: 380, screenHeight: 820,
                     homeScreenWallpaper: 'https://source.unsplash.com/random/380x820?aurora',
-                    homeScreenFontColor: '#FFFFFF',
+                    homeScreenFontColor: '#FFFFFF', // NEW
                     appIconSize: 60, appIconGap: 20, appIconRadius: 15,
                     appIcons: {
                         wechat: 'https://img.js.design/assets/img/65a881fa383e6a42242a3f33.jpg',
                         settings: 'https://img.js.design/assets/img/66547a8286955562f5597929.png',
                         worldbook: 'https://img.js.design/assets/img/66547a8292e9484a89d107a6.png'
                     },
-                    lockScreen: {
+                    lockScreen: { // NEW
                         enabled: false,
                         password: '',
                         wallpaper: 'https://source.unsplash.com/random/380x820?night,sky'
-                    },
-                    battery: { // NEW
-                        iconUrl: '',
-                        numberPosition: 'inside' // 'inside', 'outside', 'none'
                     }
+                },
+                poke: {
+                    userToChar: { action: '拍了拍', suffix: '' },
+                    charToUser: { action: '拍了拍', suffix: '' }
                 },
                 blacklist: [],
                 charMomentFrequency: 'default',
@@ -788,7 +802,7 @@
                     receive: '',
                     ringtone: ''
                 },
-                dnd: false,
+                dnd: false, // Do Not Disturb
             },
             music: {
                 library: [], favorites: [], currentSongId: null, isPlaying: false,
@@ -803,7 +817,7 @@
             },
             longTermMemory: {},
             activeChat: { id: null, type: null },
-            version: '19.0' // Version bump
+            version: '18.0' // Version bump
         };
 
         async function loadData() {
@@ -812,7 +826,6 @@
                 appData = savedData ? savedData : JSON.parse(JSON.stringify(defaultAppData));
                 
                 // --- Data migration and validation (FIREWALL) ---
-                if (!appData.settings.beautify.battery) appData.settings.beautify.battery = JSON.parse(JSON.stringify(defaultAppData.settings.beautify.battery));
                 if (!appData.settings.beautify.lockScreen) appData.settings.beautify.lockScreen = JSON.parse(JSON.stringify(defaultAppData.settings.beautify.lockScreen));
                 if (!appData.settings.beautify.homeScreenFontColor) appData.settings.beautify.homeScreenFontColor = defaultAppData.settings.beautify.homeScreenFontColor;
                 if (!appData.settings.beautify.globalFontColor) appData.settings.beautify.globalFontColor = defaultAppData.settings.beautify.globalFontColor;
@@ -840,15 +853,7 @@
                 if (!appData.settings.beautify.screenHeight) appData.settings.beautify.screenHeight = 820;
                 if (!appData.worldbooks) appData.worldbooks = { presets: [], styles: [], library: [] };
                 if (!appData.longTermMemory) appData.longTermMemory = {};
-                if (!appData.settings.poke) { // Poke settings migration
-                    appData.contacts.forEach(c => {
-                        c.pokeSettings = JSON.parse(JSON.stringify(defaultAppData.contacts[0]?.pokeSettings || {
-                            userToChar: { action: '拍了拍', suffix: '' },
-                            charToUser: { action: '拍了拍', suffix: '' }
-                        }));
-                    });
-                    delete appData.settings.poke;
-                }
+                if (!appData.settings.poke) appData.settings.poke = JSON.parse(JSON.stringify(defaultAppData.settings.poke));
                 if (!appData.settings.beautify.bubbleArchives) appData.settings.beautify.bubbleArchives = [{}, {}, {}, {}, {}];
                 if (!appData.settings.api.repetition_penalty) appData.settings.api.repetition_penalty = 0.69;
                 if (!appData.settings.api.presets) appData.settings.api.presets = [];
@@ -860,12 +865,6 @@
                     if (c.lastMomentPostTime === undefined) c.lastMomentPostTime = 0;
                     if (c.boundPersonaId === undefined) c.boundPersonaId = null;
                     if (c.isCouple === undefined) c.isCouple = false;
-                    if (!c.pokeSettings) {
-                         c.pokeSettings = {
-                            userToChar: { action: '拍了拍', suffix: '' },
-                            charToUser: { action: '拍了拍', suffix: '' }
-                        };
-                    }
                 });
 
             } catch (error) {
@@ -878,6 +877,7 @@
             try {
                 await dataManager.saveData(DATA_KEY, appData);
                 if (showAlert) {
+                    // Using a more subtle notification instead of alert
                     showToast('保存成功!');
                 }
                 if (callback) {
@@ -898,6 +898,7 @@
                 return;
             }
 
+            // Handle lock screen logic
             if (pageId !== 'lock-screen-page' && pageId !== 'password-entry-page' && appData.settings.beautify.lockScreen.enabled && pageHistory[0] !== 'home-screen-page') {
                 pageHistory = ['lock-screen-page'];
                 showPage('lock-screen-page', renderLockScreenPage);
@@ -913,7 +914,7 @@
                     renderFunc(pageElement, ...args);
                 } catch (e) {
                     console.error(`Render Firewall: Error rendering page "${pageId}".`, e);
-                    goBack();
+                    goBack(); // Attempt to go back to a stable state
                     return;
                 }
             }
@@ -964,10 +965,11 @@
                     <span class="app-name">世界书</span>
                 </div>
             `;
-            updateSystemUI();
+            updateSystemUI(); // Update home screen time
         }
 
         function renderWechatApp(container) {
+            // This function just ensures the tab bar is set up correctly when entering the app
             const activeTab = container.querySelector('.tab-item.active');
             renderMainContent(activeTab ? activeTab.dataset.page : 'chat-list');
         }
@@ -977,7 +979,7 @@
             const header = document.getElementById('main-header');
             const plusBtn = document.getElementById('main-plus-btn');
             
-            if (!contentArea || !header || !plusBtn) return;
+            if (!contentArea || !header || !plusBtn) return; // FIREWALL
             
             contentArea.innerHTML = '';
             plusBtn.style.display = 'block';
@@ -1061,7 +1063,7 @@
                         case 'delivery_receipt': subtext = '[外卖订单]'; break;
                         case 'gift_receipt': subtext = '[礼物清单]'; break;
                         case 'voice_call': subtext = '[语音通话]'; break;
-                        case 'system': subtext = lastMessage.content.content; break;
+                        case 'system': subtext = lastMessage.content.content; break; // MODIFIED
                         default: subtext = lastMessage.content.content;
                     }
 
@@ -1182,6 +1184,9 @@
                     </div>
                     <div class="list-item" onclick="showPage('announcement-page', renderAnnouncementPage)">
                         <div class="details"><span class="name">公告栏</span></div><i class="fas fa-chevron-right chevron"></i>
+                    </div>
+                    <div class="list-item" onclick="showPage('battery-icon-settings-page', renderBatteryIconSettingsPage)">
+                        <div class="details"><span class="name">更换电池图标</span></div><i class="fas fa-chevron-right chevron"></i>
                     </div>
                     <div class="list-divider"></div>
                     <div class="list-item" onclick="showCharMomentFrequencySettings()">
@@ -1313,11 +1318,7 @@
                         appData.contacts.push({
                             id: Date.now(), name: newName, avatar: newAvatar, persona: newPersona,
                             conversation: [], remark: '', isPinned: false, isStarred: false, lastMomentPostTime: 0,
-                            boundPersonaId: null, isCouple: false,
-                            pokeSettings: { // Add default poke settings for new contact
-                                userToChar: { action: '拍了拍', suffix: '' },
-                                charToUser: { action: '拍了拍', suffix: '' }
-                            }
+                            boundPersonaId: null, isCouple: false
                         });
                     }
                 }
@@ -1526,7 +1527,7 @@
             `;
             let lastTimestamp = 0;
             (chat.conversation || []).forEach((msg, index) => {
-                if (!msg || !msg.type || msg.content === undefined) {
+                if (!msg || !msg.type || !msg.content) {
                     console.warn("Message Firewall: Skipped rendering malformed message object:", msg);
                     return;
                 }
@@ -1542,8 +1543,7 @@
                     return;
                 }
                 if (msg.type === 'system') {
-                    const systemClass = msg.content.subType === 'poke' ? 'message-poke' : 'message-system';
-                    html += `<div class="${systemClass}">${msg.content.content}</div>`;
+                    html += `<div class="message-system">${msg.content.content}</div>`;
                     return;
                 }
 
@@ -1564,7 +1564,7 @@
                     case 'avatar-under': timestampHtml = `<div class="message-timestamp-under" style="text-align: center;">${timeString}</div>`; break;
                 }
                 
-                bubbleHtml = _renderBubble(msg, chatId, chatType);
+                bubbleHtml = generateBubbleHtml(msg, chatId, chatType);
 
                 if (msg.translatedText) additionalContent += `<div class="translated-text-bubble">${msg.translatedText}</div>`;
                 if (msg.type === 'voice' && msg.transcribedText) additionalContent += `<div class="voice-transcribed-bubble">${msg.transcribedText}</div>`;
@@ -1578,7 +1578,7 @@
                 html += `
                     <div class="message-row ${isSent ? 'sent' : 'received'}" data-message-id="${msg.id}">
                         <div class="message-body">
-                            <div class="message-avatar-wrapper" ondblclick="triggerPoke('${chatId}', '${chatType}', '${senderObj.id}', '${appData.user.id}')">
+                            <div class="message-avatar-wrapper" ondblclick="triggerPoke('${chatId}', '${chatType}', '${senderObj.id}')">
                                 <img src="${avatar}" class="message-avatar">
                                 <div class="avatar-frame"></div>
                                 ${appData.settings.timestampStyle === 'avatar-under' ? timestampHtml : ''}
@@ -1596,134 +1596,135 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // --- Bubble Rendering Refactor ---
-        function _renderBubble(msg, chatId, chatType) {
+        function generateBubbleHtml(msg, chatId, chatType) {
             const isSent = msg.sender === appData.user.id;
-            const attributes = `ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')"`;
-            
-            if (isSent) {
-                switch(msg.type) {
-                    case 'text': return _renderSentTextBubble(msg, attributes);
-                    case 'image': return _renderSentImageBubble(msg, attributes);
-                    case 'sticker': return _renderSentStickerBubble(msg, attributes);
-                    case 'voice': return _renderSentVoiceBubble(msg, attributes);
-                    case 'location': return _renderSentLocationBubble(msg, attributes);
-                    case 'camera-sim': return _renderSentCameraSimBubble(msg, chatId, chatType);
-                    case 'transfer': return _renderSentTransferBubble(msg, chatId, chatType);
-                    case 'redPacket': return _renderSentRedPacketBubble(msg, chatId, chatType);
-                    case 'forward': return _renderSentForwardBubble(msg, chatId, chatType);
-                    case 'music': return _renderSentMusicBubble(msg, chatId, chatType);
-                    case 'html-content': return _renderSentHtmlContentBubble(msg, attributes);
-                    case 'gift': return _renderSentGiftBubble(msg, attributes);
-                    case 'couple_invitation': return _renderSentCoupleInvitationBubble(msg, chatId);
-                    case 'delivery_receipt':
-                    case 'gift_receipt': return _renderSentReceiptBubble(msg, attributes);
-                    case 'voice_call': return _renderSentVoiceCallBubble(msg, attributes);
-                    default: return `<div class="message-bubble text-bubble" ${attributes}>[未知消息类型: ${msg.type}]</div>`;
-                }
-            } else {
-                switch(msg.type) {
-                    case 'text': return _renderReceivedTextBubble(msg, attributes);
-                    case 'image': return _renderReceivedImageBubble(msg, attributes);
-                    case 'sticker': return _renderReceivedStickerBubble(msg, attributes);
-                    case 'voice': return _renderReceivedVoiceBubble(msg, attributes);
-                    case 'location': return _renderReceivedLocationBubble(msg, attributes);
-                    case 'camera-sim': return _renderReceivedCameraSimBubble(msg, chatId, chatType);
-                    case 'transfer': return _renderReceivedTransferBubble(msg, chatId, chatType);
-                    case 'redPacket': return _renderReceivedRedPacketBubble(msg, chatId, chatType);
-                    case 'forward': return _renderReceivedForwardBubble(msg, chatId, chatType);
-                    case 'music': return _renderReceivedMusicBubble(msg, chatId, chatType);
-                    case 'html-content': return _renderReceivedHtmlContentBubble(msg, attributes);
-                    case 'gift': return _renderReceivedGiftBubble(msg, attributes);
-                    case 'couple_invitation': return _renderReceivedCoupleInvitationBubble(msg, chatId, chatType);
-                    case 'delivery_receipt':
-                    case 'gift_receipt': return _renderReceivedReceiptBubble(msg, attributes);
-                    case 'voice_call': return _renderReceivedVoiceCallBubble(msg, attributes);
-                    default: return `<div class="message-bubble text-bubble" ${attributes}>[未知消息类型: ${msg.type}]</div>`;
-                }
+            let bubbleContent = '';
+            let bubbleClass = '';
+            let additionalAttributes = `ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')"`;
+
+            switch(msg.type) {
+                case 'text':
+                    let quotedHtml = '';
+                    if (msg.quotedMessage) {
+                        let chat = chatType === 'group' ? appData.groups.find(g => g.id == chatId) : appData.contacts.find(c => c.id == chatId);
+                        let quotedSenderName = '未知';
+                        if (chatType === 'group') {
+                            const quotedSender = chat.members.find(m => m.id == msg.quotedMessage.sender);
+                            quotedSenderName = quotedSender ? (quotedSender.remark || quotedSender.name) : '未知成员';
+                        } else {
+                            quotedSenderName = msg.quotedMessage.sender === appData.user.id ? appData.user.nickname : (chat.remark || chat.name);
+                        }
+                        quotedHtml = `<div class="quoted-message"><p><strong>${quotedSenderName}:</strong> ${msg.quotedMessage.content.substring(0, 30)}...</p></div>`;
+                    }
+                    bubbleContent = `${quotedHtml}${msg.content.content}`;
+                    bubbleClass = 'text-bubble';
+                    break;
+                case 'image':
+                    bubbleContent = `<img src="${msg.content.url}" alt="image">`;
+                    bubbleClass = 'image-bubble';
+                    break;
+                case 'sticker':
+                    bubbleContent = `<img src="${msg.content.url}" alt="sticker">`;
+                    bubbleClass = 'sticker-bubble';
+                    break;
+                case 'voice':
+                    bubbleContent = `<div class="voice-bubble-content"><div class="waveform">${Array(10).fill('<div class="bar"></div>').join('')}</div> <span>${msg.content.duration}"</span></div>`;
+                    bubbleClass = 'voice-bubble text-bubble';
+                    break;
+                case 'location':
+                    bubbleContent = `<div class="location-text-wrapper"><div class="location-text">${msg.content.location}</div></div><div class="map-placeholder"><i class="fas fa-map-marked-alt"></i></div>`;
+                    bubbleClass = 'location-bubble';
+                    break;
+                case 'camera-sim': 
+                    bubbleContent = `<img src="https://img.heliar.top/file/1764050688895_Image_1757235244080.jpg" class="sim-icon"><span class="sim-text">糟糕…图片被本喵吃了໒꒰ྀིㅇㅁㅇ꒱ྀི১</span>`; 
+                    bubbleClass = 'camera-sim-bubble'; 
+                    additionalAttributes += ` onclick="handleBubbleClick('camera-sim', ${msg.id}, '${chatId}', '${chatType}')"`;
+                    break;
+                case 'transfer':
+                    let transferStatusText = '', transferFooter = '微信转账';
+                    if (msg.content.status === 'sent') { transferStatusText = isSent ? '已转账' : '请你确认收款'; } 
+                    else if (msg.content.status === 'claimed') { transferStatusText = '已收款'; } 
+                    else if (msg.content.status === 'returned') { transferStatusText = '已退回'; }
+                    if (chatType === 'group') {
+                        const group = appData.groups.find(g => g.id == chatId);
+                        const recipientName = group.members.find(m => m.id == msg.content.recipientId)?.name || '成员';
+                        transferFooter = `转账给 ${recipientName}`;
+                    }
+                    bubbleContent = `<div class="main"><i class="fas fa-exchange-alt icon"></i><div class="details"><span class="amount">¥${parseFloat(msg.content.amount).toFixed(2)}</span><span class="remark">${transferStatusText}</span></div></div><div class="footer">${transferFooter}</div>`;
+                    bubbleClass = 'transfer-bubble';
+                    additionalAttributes += ` onclick="handleBubbleClick('transfer', ${msg.id}, '${chatId}', '${chatType}')"`;
+                    break;
+                case 'redPacket':
+                    let packetStatus = msg.content.claimed.includes(appData.user.id) ? '已领取' : '点击领取红包';
+                    if (msg.content.claimed.length >= msg.content.count) packetStatus = '红包已被领完';
+                    bubbleContent = `<div class="main"><i class="fas fa-envelope icon"></i><div class="details"><span class="remark">${msg.content.remark}</span><span class="amount" style="font-size: 14px;">${isSent ? '查看红包' : packetStatus}</span></div></div><div class="footer">微信红包</div>`;
+                    bubbleClass = 'redpacket-bubble';
+                    additionalAttributes += ` onclick="handleBubbleClick('redPacket', ${msg.id}, '${chatId}', '${chatType}')"`;
+                    break;
+                case 'forward':
+                    const originalChat = appData.groups.find(g => g.id == msg.content.originalChatId) || appData.contacts.find(c => c.id == msg.content.originalChatId);
+                    let forwardTitle = '聊天记录';
+                    if (originalChat) {
+                        if (msg.content.originalChatType === 'group') {
+                            forwardTitle = `${originalChat.name}的聊天记录`;
+                        } else {
+                            const otherUser = msg.content.messages.find(m => m.sender !== appData.user.id)?.sender;
+                            const otherContact = appData.contacts.find(c => c.id == otherUser);
+                            const otherName = otherContact ? (otherContact.remark || otherContact.name) : '对方';
+                            forwardTitle = `${otherName}和${appData.user.nickname}的聊天记录`;
+                        }
+                    }
+                    const previewContent = msg.content.messages.slice(0, 2).map(m => `${m.sender === appData.user.id ? appData.user.nickname : '对方'}: ${m.type === 'text' ? m.content.content.substring(0, 15) : `[${m.type}]`}`).join('\n');
+                    bubbleContent = `<div class="forward-title">${forwardTitle}</div><div class="forward-content-preview">${previewContent}...</div>`;
+                    bubbleClass = 'forwarded-message-bubble';
+                    additionalAttributes += ` onclick="showForwardedContentModal(event, ${msg.id}, '${chatId}', '${chatType}')"`;
+                    break;
+                case 'music':
+                    bubbleContent = `<img src="${msg.content.cover}" alt="cover"><div class="details"><div class="title">${msg.content.title}</div><div class="artist">${msg.content.artist}</div></div>`;
+                    bubbleClass = 'music-bubble';
+                    additionalAttributes += ` onclick="handleBubbleClick('music', ${msg.id}, '${chatId}', '${chatType}')"`;
+                    break;
+                case 'html-content':
+                    bubbleContent = `<iframe srcdoc="${escapeSrcDoc(msg.content.code)}" class="html-content-iframe" sandbox="allow-scripts allow-same-origin"></iframe>`;
+                    bubbleClass = 'html-content-bubble';
+                    break;
+                case 'gift':
+                    bubbleContent = `<i class="fas fa-gift icon"></i><div class="details"><div class="name">${msg.content.name}</div><div class="desc">${msg.content.desc}</div></div>`;
+                    bubbleClass = 'gift-bubble';
+                    break;
+                case 'couple_invitation':
+                    const inviterName = msg.sender === appData.user.id ? appData.user.nickname : (appData.contacts.find(c=>c.id==chatId).remark || appData.contacts.find(c=>c.id==chatId).name);
+                    bubbleContent = `<i class="fas fa-heartbeat icon"></i><div class="text">${inviterName} 想与你成为情侣</div>`;
+                    if (!isSent) {
+                        bubbleContent += `<div class="actions"><button class="accept-btn" onclick="respondToCoupleInvitation(${msg.id}, true, '${chatId}', '${chatType}')">同意</button><button onclick="respondToCoupleInvitation(${msg.id}, false, '${chatId}', '${chatType}')">拒绝</button></div>`;
+                    }
+                    bubbleClass = 'couple-invitation-bubble';
+                    break;
+                case 'delivery_receipt':
+                case 'gift_receipt':
+                    const receiptItems = msg.content.items.map(item => `<div class="item-row"><span>${item.name} x${item.quantity}</span><span>¥${(item.price * item.quantity).toFixed(2)}</span></div>`).join('');
+                    const receiptTitle = msg.type === 'delivery_receipt' ? '外卖订单' : '礼物清单';
+                    const receiptFooter = msg.type === 'delivery_receipt' ? '订单已送达' : '感谢惠顾';
+                    bubbleContent = `
+                        <div class="header"><span>${receiptTitle}</span><span>${isSent ? '支出' : '收到'}</span></div>
+                        <div class="items">${receiptItems}</div>
+                        <div class="total"><span>总计</span><span>¥${msg.content.total.toFixed(2)}</span></div>
+                        <div class="footer">${receiptFooter}</div>
+                    `;
+                    bubbleClass = 'receipt-bubble';
+                    break;
+                case 'voice_call':
+                    bubbleContent = `<i class="fas fa-phone-alt"></i> 语音通话 <span style="margin-left: 10px; color: var(--wechat-text-secondary);">${msg.content.duration}</span>`;
+                    bubbleClass = 'voice-call-bubble text-bubble';
+                    break;
+                default:
+                    bubbleContent = `[未知消息类型: ${msg.type}]`;
+                    bubbleClass = 'text-bubble';
+                    break;
             }
+            return `<div class="message-bubble ${bubbleClass}" ${additionalAttributes}>${bubbleContent}</div>`;
         }
-
-        // --- Sent Bubble Renderers ---
-        function _renderSentTextBubble(msg, attributes) {
-            let quotedHtml = '';
-            if (msg.quotedMessage) {
-                // ... quote logic ...
-            }
-            return `<div class="message-bubble text-bubble" ${attributes}>${quotedHtml}${msg.content.content}</div>`;
-        }
-        function _renderSentImageBubble(msg, attributes) { return `<div class="message-bubble image-bubble" ${attributes}><img src="${msg.content.url}" alt="image"></div>`; }
-        function _renderSentStickerBubble(msg, attributes) { return `<div class="message-bubble sticker-bubble" ${attributes}><img src="${msg.content.url}" alt="sticker"></div>`; }
-        function _renderSentVoiceBubble(msg, attributes) { return `<div class="message-bubble voice-bubble text-bubble" ${attributes}><div class="voice-bubble-content"><div class="waveform">${Array(10).fill('<div class="bar"></div>').join('')}</div> <span>${msg.content.duration}"</span></div></div>`; }
-        function _renderSentLocationBubble(msg, attributes) { return `<div class="message-bubble location-bubble" ${attributes}><div class="location-text-wrapper"><div class="location-text">${msg.content.location}</div></div><div class="map-placeholder"><i class="fas fa-map-marked-alt"></i></div></div>`; }
-        function _renderSentCameraSimBubble(msg, chatId, chatType) { return `<div class="message-bubble camera-sim-bubble" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')" onclick="handleBubbleClick('camera-sim', ${msg.id}, '${chatId}', '${chatType}')"><img src="https://img.heliar.top/file/1764050688895_Image_1757235244080.jpg" class="sim-icon"><span class="sim-text">糟糕…图片被本喵吃了໒꒰ྀིㅇㅁㅇ꒱ྀི১</span></div>`; }
-        function _renderSentTransferBubble(msg, chatId, chatType) {
-            const footer = chatType === 'group' ? `转账给 ${appData.groups.find(g => g.id == chatId)?.members.find(m => m.id == msg.content.recipientId)?.name || '成员'}` : '微信转账';
-            return `<div class="message-bubble transfer-bubble" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')"><div class="main"><i class="fas fa-exchange-alt icon"></i><div class="details"><span class="amount">¥${parseFloat(msg.content.amount).toFixed(2)}</span><span class="remark">已转账</span></div></div><div class="footer">${footer}</div></div>`;
-        }
-        function _renderSentRedPacketBubble(msg, chatId, chatType) { return `<div class="message-bubble redpacket-bubble" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')"><div class="main"><i class="fas fa-envelope icon"></i><div class="details"><span class="remark">${msg.content.remark}</span><span class="amount" style="font-size: 14px;">查看红包</span></div></div><div class="footer">微信红包</div></div>`; }
-        function _renderSentForwardBubble(msg, chatId, chatType) {
-            const title = `聊天记录`; // Simplified for brevity
-            const preview = msg.content.messages.slice(0, 2).map(m => `${m.sender === appData.user.id ? '我' : '对方'}: ${m.type === 'text' ? m.content.content.substring(0, 15) : `[${m.type}]`}`).join('\n');
-            return `<div class="message-bubble forwarded-message-bubble" onclick="showForwardedContentModal(event, ${msg.id}, '${chatId}', '${chatType}')" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')"><div class="forward-title">${title}</div><div class="forward-content-preview">${preview}...</div></div>`;
-        }
-        function _renderSentMusicBubble(msg, chatId, chatType) { return `<div class="message-bubble music-bubble" onclick="handleBubbleClick('music', ${msg.id}, '${chatId}', '${chatType}')" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')"><img src="${msg.content.cover}" alt="cover"><div class="details"><div class="title">${msg.content.title}</div><div class="artist">${msg.content.artist}</div></div></div>`; }
-        function _renderSentHtmlContentBubble(msg, attributes) { return `<div class="message-bubble html-content-bubble" ${attributes}><iframe srcdoc="${escapeSrcDoc(msg.content.code)}" class="html-content-iframe" sandbox="allow-scripts allow-same-origin"></iframe></div>`; }
-        function _renderSentGiftBubble(msg, attributes) { return `<div class="message-bubble gift-bubble" ${attributes}><i class="fas fa-gift icon"></i><div class="details"><div class="name">${msg.content.name}</div><div class="desc">${msg.content.desc}</div></div></div>`; }
-        function _renderSentCoupleInvitationBubble(msg, chatId) {
-            const inviterName = appData.user.nickname;
-            return `<div class="message-bubble couple-invitation-bubble" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', 'individual')"><i class="fas fa-heartbeat icon"></i><div class="text">${inviterName想与你成为情侣</div></div>`;
-        }
-        function _renderSentReceiptBubble(msg, attributes) {
-            const receiptItems = msg.content.items.map(item => `<div class="item-row"><span>${item.name} x${item.quantity}</span><span>¥${(item.price * item.quantity).toFixed(2)}</span></div>`).join('');
-            const receiptTitle = msg.type === 'delivery_receipt' ? '外卖订单' : '礼物清单';
-            const receiptFooter = msg.type === 'delivery_receipt' ? '订单已送达' : '感谢惠顾';
-            return `<div class="message-bubble receipt-bubble" ${attributes}><div class="header"><span>${receiptTitle}</span><span>支出</span></div><div class="items">${receiptItems}</div><div class="total"><span>总计</span><span>¥${msg.content.total.toFixed(2)}</span></div><div class="footer">${receiptFooter}</div></div>`;
-        }
-        function _renderSentVoiceCallBubble(msg, attributes) { return `<div class="message-bubble voice-call-bubble text-bubble" ${attributes}><i class="fas fa-phone-alt"></i> 语音通话 <span style="margin-left: 10px; color: var(--wechat-text-secondary);">${msg.content.duration}</span></div>`; }
-
-        // --- Received Bubble Renderers ---
-        function _renderReceivedTextBubble(msg, attributes) {
-            let quotedHtml = '';
-            if (msg.quotedMessage) {
-                // ... quote logic ...
-            }
-            return `<div class="message-bubble text-bubble" ${attributes}>${quotedHtml}${msg.content.content}</div>`;
-        }
-        function _renderReceivedImageBubble(msg, attributes) { return `<div class="message-bubble image-bubble" ${attributes}><img src="${msg.content.url}" alt="image"></div>`; }
-        function _renderReceivedStickerBubble(msg, attributes) { return `<div class="message-bubble sticker-bubble" ${attributes}><img src="${msg.content.url}" alt="sticker"></div>`; }
-        function _renderReceivedVoiceBubble(msg, attributes) { return `<div class="message-bubble voice-bubble text-bubble" ${attributes}><div class="voice-bubble-content"><div class="waveform">${Array(10).fill('<div class="bar"></div>').join('')}</div> <span>${msg.content.duration}"</span></div></div>`; }
-        function _renderReceivedLocationBubble(msg, attributes) { return `<div class="message-bubble location-bubble" ${attributes}><div class="location-text-wrapper"><div class="location-text">${msg.content.location}</div></div><div class="map-placeholder"><i class="fas fa-map-marked-alt"></i></div></div>`; }
-        function _renderReceivedCameraSimBubble(msg, chatId, chatType) { return `<div class="message-bubble camera-sim-bubble" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')" onclick="handleBubbleClick('camera-sim', ${msg.id}, '${chatId}', '${chatType}')"><img src="https://img.heliar.top/file/1764050688895_Image_1757235244080.jpg" class="sim-icon"><span class="sim-text">糟糕…图片被本喵吃了໒꒰ྀིㅇㅁㅇ꒱ྀི১</span></div>`; }
-        function _renderReceivedTransferBubble(msg, chatId, chatType) {
-            return `<div class="message-bubble transfer-bubble" onclick="handleBubbleClick('transfer', ${msg.id}, '${chatId}', '${chatType}')" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')"><div class="main"><i class="fas fa-exchange-alt icon"></i><div class="details"><span class="amount">¥${parseFloat(msg.content.amount).toFixed(2)}</span><span class="remark">请你确认收款</span></div></div><div class="footer">微信转账</div></div>`;
-        }
-        function _renderReceivedRedPacketBubble(msg, chatId, chatType) {
-            let packetStatus = msg.content.claimed.includes(appData.user.id) ? '已领取' : '点击领取红包';
-            if (msg.content.claimed.length >= msg.content.count) packetStatus = '红包已被领完';
-            return `<div class="message-bubble redpacket-bubble" onclick="handleBubbleClick('redPacket', ${msg.id}, '${chatId}', '${chatType}')" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')"><div class="main"><i class="fas fa-envelope icon"></i><div class="details"><span class="remark">${msg.content.remark}</span><span class="amount" style="font-size: 14px;">${packetStatus}</span></div></div><div class="footer">微信红包</div></div>`;
-        }
-        function _renderReceivedForwardBubble(msg, chatId, chatType) { return _renderSentForwardBubble(msg, chatId, chatType); }
-        function _renderReceivedMusicBubble(msg, chatId, chatType) { return _renderSentMusicBubble(msg, chatId, chatType); }
-        function _renderReceivedHtmlContentBubble(msg, attributes) { return _renderSentHtmlContentBubble(msg, attributes); }
-        function _renderReceivedGiftBubble(msg, attributes) { return _renderSentGiftBubble(msg, attributes); }
-        function _renderReceivedCoupleInvitationBubble(msg, chatId, chatType) {
-            const contact = appData.contacts.find(c => c.id == chatId);
-            const inviterName = contact ? (contact.remark || contact.name) : '对方';
-            let bubbleContent = `<i class="fas fa-heartbeat icon"></i><div class="text">${inviterName} 想与你成为情侣</div>`;
-            bubbleContent += `<div class="actions"><button class="accept-btn" onclick="respondToCoupleInvitation(${msg.id}, true, '${chatId}', '${chatType}')">同意</button><button onclick="respondToCoupleInvitation(${msg.id}, false, '${chatId}', '${chatType}')">拒绝</button></div>`;
-            return `<div class="message-bubble couple-invitation-bubble" ondblclick="showMessageContextMenu(event, ${msg.id}, '${chatId}', '${chatType}')">${bubbleContent}</div>`;
-        }
-        function _renderReceivedReceiptBubble(msg, attributes) {
-            const receiptItems = msg.content.items.map(item => `<div class="item-row"><span>${item.name} x${item.quantity}</span><span>¥${(item.price * item.quantity).toFixed(2)}</span></div>`).join('');
-            const receiptTitle = msg.type === 'delivery_receipt' ? '外卖订单' : '礼物清单';
-            const receiptFooter = msg.type === 'delivery_receipt' ? '订单已送达' : '感谢惠顾';
-            return `<div class="message-bubble receipt-bubble" ${attributes}><div class="header"><span>${receiptTitle}</span><span>收到</span></div><div class="items">${receiptItems}</div><div class="total"><span>总计</span><span>¥${msg.content.total.toFixed(2)}</span></div><div class="footer">${receiptFooter}</div></div>`;
-        }
-        function _renderReceivedVoiceCallBubble(msg, attributes) { return _renderSentVoiceCallBubble(msg, attributes); }
-
-        // --- End of Bubble Renderers ---
-
+        
         function renderWalletPage(container) {
             const wallet = appData.user.wallet;
             const currentCurrency = wallet.currency;
@@ -2110,9 +2111,6 @@
                     </div>
                     <div class="list-item" onclick="showPage('phone-frame-settings-page', renderPhoneFrameSettingsPage)">
                         <div class="details"><span class="name">手机边框</span></div><i class="fas fa-chevron-right chevron"></i>
-                    </div>
-                    <div class="list-item" onclick="showPage('battery-settings-page', renderBatterySettingsPage)">
-                        <div class="details"><span class="name">更换电池图标</span></div><i class="fas fa-chevron-right chevron"></i>
                     </div>
                     <div class="list-item" onclick="document.getElementById('chat-bg-input').click()">
                         <div class="details"><span class="name">更换聊天背景图</span></div><i class="fas fa-chevron-right chevron"></i>
@@ -2983,7 +2981,6 @@
             const stickerMatch = replyText.match(/\[sticker:(.+?)\]/i);
             const coupleInviteMatch = replyText.match(/\[couple_invitation\]/i);
             const voiceCallMatch = replyText.match(/\[voice_call\]/i);
-            const pokeMatch = replyText.match(/\[poke\]/i); // NEW
 
             let message;
             if (transferMatch) {
@@ -3012,9 +3009,6 @@
                 };
             } else if (voiceCallMatch) {
                 startVoiceCall(chatId, chatType, 'char');
-                return;
-            } else if (pokeMatch) { // NEW
-                triggerPoke(chatId, chatType, appData.user.id, senderId);
                 return;
             } else {
                 message = { id: Date.now() + Math.random(), sender: senderId, type: 'text', content: { content: replyText }, timestamp: Date.now() };
@@ -3093,13 +3087,6 @@
                         case 'delivery_receipt': contentText = `[${m.sender === appData.user.id ? '我' : '你'}点了一份外卖]`; break;
                         case 'gift_receipt': contentText = `[${m.sender === appData.user.id ? '我' : '你'}赠送了一份礼物]`; break;
                         case 'voice_call': contentText = `[语音通话，时长: ${m.content.duration}]`; break;
-                        case 'system': 
-                            if (m.content.subType === 'poke') {
-                                contentText = `[系统提示: ${m.content.content}]`;
-                            } else {
-                                contentText = `[系统消息: ${m.content.content}]`;
-                            }
-                            break;
                         default: contentText = `[${m.sender === appData.user.id ? '我' : '你'}发送了一个${m.type}]`; break;
                     }
                     if (contentArray.length > 0) {
@@ -3111,7 +3098,7 @@
 
             const isOfflineMode = appData.settings.chatMode === 'offline';
             const worldbookPreset = appData.worldbooks.presets.map(p => p.content).join('\n');
-            const systemPrompt = customPrompt || `${worldbookPreset}\n\n【你的角色设定】\n${contact.persona}${userPersonaPrompt}\n\n【当前时间】\n${new Date().toLocaleString()}\n\n【你的语言】\n请使用 ${appData.settings.charLanguage} 进行回复。\n\n【特殊指令】\n你可以在回复中包含特殊指令，如[poke]来戳一戳对方，或在紧急情况下多次使用[poke]。\n\n请严格根据你的角色设定、当前时间，并结合世界书与对方人设，以角色的口吻和身份，自然地与用户对话。不要暴露你是AI或模型，下面的都是AI聊天核心准则，请你务必严格遵守，立刻执行，你要做到群聊和单聊都务必严格结合自己人设回复，禁止抢话替别人发言更不要替我发言，除此之外，你还要熟知所有网络热梗语录。
+            const systemPrompt = customPrompt || `${worldbookPreset}\n\n【你的角色设定】\n${contact.persona}${userPersonaPrompt}\n\n【当前时间】\n${new Date().toLocaleString()}\n\n【你的语言】\n请使用 ${appData.settings.charLanguage} 进行回复。\n\n请严格根据你的角色设定、当前时间，并结合世界书与对方人设，以角色的口吻和身份，自然地与用户对话。不要暴露你是AI或模型，下面的都是AI聊天核心准则，请你务必严格遵守，立刻执行，你要做到群聊和单聊都务必严格结合自己人设回复，禁止抢话替别人发言更不要替我发言，除此之外，你还要熟知所有网络热梗语录。
 目标：构建完全贴合人设、具备活人感、无机械/油腻/八股痕迹，支持多场景交互与深度内容输出的AI聊天规范体系
 一、总则：底层逻辑与核心定位
 1.1 定义与边界
@@ -3229,6 +3216,7 @@
             const apiUrl = `${finalEndpoint.replace(/\/$/, "")}/chat/completions`;
 
             const body = { model, messages, temperature, top_p, repetition_penalty };
+            // Add max_tokens for vision models
             if (messages.some(m => Array.isArray(m.content) && m.content.some(p => p.type === 'image_url'))) {
                 body.max_tokens = 300;
             }
@@ -3301,12 +3289,14 @@
             const globalThemeStyle = document.getElementById('global-theme-style');
             const beautify = appData.settings.beautify;
             
+            // Global Theme
             if (beautify.activeGlobalThemeSlot > -1 && beautify.globalThemeArchives[beautify.activeGlobalThemeSlot]) {
                 globalThemeStyle.innerHTML = beautify.globalThemeArchives[beautify.activeGlobalThemeSlot].css;
             } else {
                 globalThemeStyle.innerHTML = '';
             }
 
+            // Screen Size & Home Screen
             root.style.setProperty('--phone-width', `${beautify.screenWidth}px`);
             root.style.setProperty('--phone-height', `${beautify.screenHeight}px`);
             root.style.setProperty('--home-screen-background-image', `url(${beautify.homeScreenWallpaper})`);
@@ -3315,14 +3305,16 @@
             root.style.setProperty('--app-icon-gap', `${beautify.appIconGap}px`);
             root.style.setProperty('--app-icon-radius', `${beautify.appIconRadius}px`);
             root.style.setProperty('--lock-screen-wallpaper', `url(${beautify.lockScreen.wallpaper})`);
-            root.style.setProperty('--battery-icon-image', beautify.battery.iconUrl ? `url(${beautify.battery.iconUrl})` : 'none');
 
-            document.body.className = '';
+            // Theme & Global Font Color
+            document.body.className = ''; // Reset all theme classes
             if (beautify.theme) {
                 document.body.classList.add(`${beautify.theme}-mode`);
             }
             root.style.setProperty('--global-font-color', beautify.globalFontColor);
 
+
+            // Phone Frame
             const frameStyles = {
                 white: { color: '#E5E5E5', width: '10px', shadow: '0 10px 40px rgba(0,0,0,0.2)', highlight: 'transparent', backdrop: 'none' },
                 black: { color: '#111', width: '10px', shadow: '0 15px 50px rgba(0,0,0,0.3)', highlight: 'transparent', backdrop: 'none' },
@@ -3340,8 +3332,10 @@
             root.style.setProperty('--phone-edge-highlight', style.highlight);
             root.style.setProperty('--phone-backdrop-filter', style.backdrop);
 
+            // Chat Background
             root.style.setProperty('--chat-background-image', beautify.chatBackground ? `url(${beautify.chatBackground})` : 'none');
 
+            // Font
             const defaultFontStyle = document.getElementById('default-font-style');
             if (beautify.fontFile || beautify.fontUrl) {
                 if (defaultFontStyle) defaultFontStyle.remove();
@@ -3367,16 +3361,20 @@
             }
             root.style.setProperty('--font-size-base', `${beautify.fontSize}px`);
 
+            // Avatar Shape & Frames
             root.style.setProperty('--avatar-shape', beautify.avatarShape === 'circle' ? '50%' : '6px');
             root.style.setProperty('--user-avatar-frame', beautify.userAvatarFrame ? `url(${beautify.userAvatarFrame})` : 'none');
             root.style.setProperty('--char-avatar-frame', beautify.charAvatarFrame ? `url(${beautify.charAvatarFrame})` : 'none');
             
+            // Bubble CSS
             bubbleStyle.innerHTML = beautify.bubbleCss || '';
             voiceBubbleStyle.innerHTML = beautify.voiceBubbleCss || '';
 
+            // Music Player
             root.style.setProperty('--player-image', `url(${appData.music.playerImage})`);
             root.style.setProperty('--player-background', `url(${appData.music.playerBackground})`);
             
+            // Notification Sounds
             document.getElementById('send-sound-player').src = appData.settings.notifications.send;
             document.getElementById('receive-sound-player').src = appData.settings.notifications.receive;
             document.getElementById('ringtone-player').src = appData.settings.notifications.ringtone;
@@ -3863,7 +3861,7 @@
                     <div class="list-item" onclick="showBindSelfPersonaModal(${contactId})">
                         <div class="details"><span class="name">绑定自设</span></div><i class="fas fa-chevron-right chevron"></i>
                     </div>
-                    <div class="list-item" onclick="showPage('poke-settings-page', renderPokeSettingsPage, ${contactId})">
+                    <div class="list-item" onclick="showPage('poke-settings-page', renderPokeSettingsPage)">
                         <div class="details"><span class="name">戳一戳设置</span></div><i class="fas fa-chevron-right chevron"></i>
                     </div>
                     <div class="list-item" onclick="showPage('long-term-memory-page', renderLongTermMemoryPage, ${contactId})">
@@ -4103,7 +4101,10 @@
                     renderMessages(chatId, chatType);
                     closeModal(modalId);
                 };
-}
+            } else if (type === 'music') {
+                playSong(message.content.id);
+            }
+        }
 
         function showForwardedContentModal(event, messageId, chatId, chatType) {
             event.stopPropagation();
@@ -4116,7 +4117,7 @@
             const messagesHtml = message.content.messages.map(msg => {
                 const isSent = msg.sender === appData.user.id;
                 const sender = isSent ? appData.user : (appData.contacts.find(c => c.id == msg.sender) || {name: '未知', nickname: '未知', avatar: 'https://img.js.design/assets/img/65a881fa383e6a42242a3f33.jpg'});
-                const bubbleHtml = _renderBubble(msg, chatId, chatType); // MODIFIED: Use the new bubble renderer
+                const bubbleHtml = generateBubbleHtml(msg, chatId, chatType);
                 return `
                     <div class="message-row ${isSent ? 'sent' : 'received'}">
                         <div class="message-body">
@@ -4780,87 +4781,65 @@
             }
         }
 
-        // --- Poke Feature (MODIFIED) ---
-        function renderPokeSettingsPage(container, contactId) {
-            const contact = appData.contacts.find(c => c.id == contactId);
-            if (!contact) { goBack(); return; }
-
-            const userToChar = contact.pokeSettings.userToChar;
-            const charToUser = contact.pokeSettings.charToUser;
-
+        // --- Poke Feature ---
+        function renderPokeSettingsPage(container) {
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
                     <span class="header-title">戳一戳设置</span>
                 </div>
                 <div class="content-area form-page">
-                    <h3>设置我的戳一戳 (戳 ${contact.remark || contact.name})</h3>
+                    <h3>设置我的戳一戳</h3>
                     <div class="form-group">
                         <label>动作</label>
                         <select id="poke-user-action">
-                            ${['拍了拍', '揉了揉', '戳了戳', '捏了捏', '弹了弹'].map(a => `<option value="${a}" ${userToChar.action === a ? 'selected' : ''}>${a}</option>`).join('')}
+                            ${['拍了拍', '揉了揉', '戳了戳', '捏了捏', '弹了弹'].map(a => `<option value="${a}" ${appData.settings.poke.userToChar.action === a ? 'selected' : ''}>${a}</option>`).join('')}
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>后缀 (可用 {user} 和 {char} 作为占位符)</label>
-                        <input type="text" id="poke-user-suffix" value="${userToChar.suffix}">
+                        <label>后缀 (例如：的脸并说了句抖爱慕)</label>
+                        <input type="text" id="poke-user-suffix" value="${appData.settings.poke.userToChar.suffix}">
                     </div>
                     <div class="list-divider"></div>
-                    <h3>设置对方的戳一戳 (被 ${contact.remark || contact.name} 戳)</h3>
+                    <h3>设置对方的戳一戳</h3>
                     <div class="form-group">
                         <label>动作</label>
                         <select id="poke-char-action">
-                            ${['拍了拍', '揉了揉', '戳了戳', '捏了捏', '弹了弹'].map(a => `<option value="${a}" ${charToUser.action === a ? 'selected' : ''}>${a}</option>`).join('')}
+                            ${['拍了拍', '揉了揉', '戳了戳', '捏了捏', '弹了弹'].map(a => `<option value="${a}" ${appData.settings.poke.charToUser.action === a ? 'selected' : ''}>${a}</option>`).join('')}
                         </select>
                     </div>
                     <div class="form-group">
                         <label>后缀</label>
-                        <input type="text" id="poke-char-suffix" value="${charToUser.suffix}">
+                        <input type="text" id="poke-char-suffix" value="${appData.settings.poke.charToUser.suffix}">
                     </div>
-                    <button class="form-btn" onclick="savePokeSettings(${contactId})">保存</button>
+                    <button class="form-btn" id="save-poke-btn">保存</button>
                 </div>
             `;
+            document.getElementById('save-poke-btn').onclick = () => {
+                appData.settings.poke.userToChar.action = document.getElementById('poke-user-action').value;
+                appData.settings.poke.userToChar.suffix = document.getElementById('poke-user-suffix').value;
+                appData.settings.poke.charToUser.action = document.getElementById('poke-char-action').value;
+                appData.settings.poke.charToUser.suffix = document.getElementById('poke-char-suffix').value;
+                saveData(true);
+            };
         }
 
-        function savePokeSettings(contactId) {
-            const contact = appData.contacts.find(c => c.id == contactId);
-            if (!contact) return;
-
-            contact.pokeSettings.userToChar.action = document.getElementById('poke-user-action').value;
-            contact.pokeSettings.userToChar.suffix = document.getElementById('poke-user-suffix').value;
-            contact.pokeSettings.charToUser.action = document.getElementById('poke-char-action').value;
-            contact.pokeSettings.charToUser.suffix = document.getElementById('poke-char-suffix').value;
-            saveData(true);
-        }
-
-        function triggerPoke(chatId, chatType, targetId, pokerId) {
+        function triggerPoke(chatId, chatType, targetId) {
             let chat = chatType === 'group' ? appData.groups.find(g => g.id == chatId) : appData.contacts.find(c => c.id == chatId);
-            if (!chat) return;
-
-            const poker = pokerId === appData.user.id ? appData.user : appData.contacts.find(c => c.id == pokerId);
-            const target = targetId === appData.user.id ? appData.user : appData.contacts.find(c => c.id == targetId);
-            if (!poker || !target) return;
-
-            let pokeSetting;
-            if (pokerId === appData.user.id && targetId !== appData.user.id) { // User pokes Char
-                pokeSetting = target.pokeSettings.userToChar;
-            } else if (pokerId !== appData.user.id && targetId === appData.user.id) { // Char pokes User
-                pokeSetting = poker.pokeSettings.charToUser;
-            } else { // Self-poke
-                pokeSetting = { action: '拍了拍', suffix: '自己' };
-            }
-
-            const pokerName = poker.nickname || poker.name;
-            const targetName = target.remark || target.name || target.nickname;
             
-            let pokeText = `${pokerName} ${pokeSetting.action}了 ${targetName}`;
-            if (pokeSetting.suffix) {
-                pokeText += ` ${pokeSetting.suffix.replace('{user}', appData.user.nickname).replace('{char}', targetName)}`;
-            }
+            const isUserPokingChar = targetId !== appData.user.id;
+            const pokeSetting = isUserPokingChar ? appData.settings.poke.userToChar : appData.settings.poke.charToUser;
+            const poker = isUserPokingChar ? appData.user : appData.contacts.find(c => c.id == chatId);
+            const target = isUserPokingChar ? appData.contacts.find(c => c.id == targetId) : appData.user;
+            
+            const pokerName = poker.nickname || poker.name;
+            const targetName = target.nickname || target.name;
+            
+            const pokeText = `${pokerName} ${pokeSetting.action}了 ${targetName} ${pokeSetting.suffix}`;
             
             const systemMsg = {
                 id: Date.now(), type: 'system',
-                content: { content: pokeText, subType: 'poke' },
+                content: { content: pokeText },
                 timestamp: Date.now()
             };
             chat.conversation.push(systemMsg);
@@ -5205,6 +5184,57 @@
                     <p style="text-align: center; margin-top: 20px;">💖 感谢支持与喜爱，愿 Lovely Phone 为你的生活增添一抹柔软与乐趣 💖</p>
                 </div>
             `;
+        }
+
+  //更换电池图标
+  function renderBatteryIconSettingsPage(container) {
+            const b = appData.settings.beautify.batteryIcon;
+            container.innerHTML = `
+                <div class="wechat-header">
+                    <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
+                    <span class="header-title">更换电池图标</span>
+                </div>
+                <div class="content-area form-page">
+                    <div class="form-group">
+                        <label>调整图标</label>
+                        <select id="battery-number-position">
+                            <option value="inside" ${b.numberPosition === 'inside' ? 'selected' : ''}>电池图标内</option>
+                            <option value="outside" ${b.numberPosition === 'outside' ? 'selected' : ''}>电池图标外</option>
+                            <option value="none" ${b.numberPosition === 'none' ? 'selected' : ''}>不显示数字</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>电池图标数字颜色</label>
+                        <input type="color" id="battery-number-color-input" value="${b.numberColor}">
+                    </div>
+                    <div class="form-group">
+                        <label>更换电池图标 (URL)</label>
+                        <input type="text" id="battery-icon-url-input" placeholder="输入图片链接..." value="${b.customIconUrl || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label>更换电池图标 (文件)</label>
+                        <button class="form-btn" style="background-color: #aaa;" onclick="document.getElementById('battery-icon-file-input').click()">选择文件</button>
+                        <input type="file" id="battery-icon-file-input" class="file-input" accept="image/*">
+                    </div>
+                    <button class="form-btn" id="save-battery-icon-btn">应用</button>
+                </div>
+            `;
+            document.getElementById('save-battery-icon-btn').onclick = () => {
+                b.numberPosition = document.getElementById('battery-number-position').value;
+                b.numberColor = document.getElementById('battery-number-color-input').value;
+                const url = document.getElementById('battery-icon-url-input').value.trim();
+                const file = document.getElementById('battery-icon-file-input').files[0];
+
+                if (file) {
+                    handleImageUpload(file, dataUrl => {
+                        b.customIconUrl = dataUrl;
+                        saveData(true, applyBeautifySettings);
+                    });
+                } else {
+                    b.customIconUrl = url;
+                    saveData(true, applyBeautifySettings);
+                }
+            };
         }
 
         // 对方正在输入中
@@ -5878,7 +5908,7 @@
             const homeScreenTime = document.getElementById('home-screen-time');
             if (homeScreenTime) homeScreenTime.textContent = timeString;
 
-            // Network
+            // Network & Battery (less frequent updates)
             const networkEl = document.getElementById('status-bar-network');
             if (networkEl) {
                 if (navigator.onLine) {
@@ -5890,40 +5920,17 @@
                 }
             }
 
-            // Battery
-            const batteryIcon = document.getElementById('battery-icon');
-            const batteryFill = document.getElementById('battery-fill');
-            const batteryPercent = document.getElementById('battery-percent');
-            if (batteryIcon && batteryFill && batteryPercent) {
-                const pos = appData.settings.beautify.battery.numberPosition;
-                batteryPercent.className = 'battery-percent'; // Reset
-                batteryFill.style.display = 'block';
-                batteryIcon.classList.remove('custom-icon');
-                if (appData.settings.beautify.battery.iconUrl) {
-                    batteryIcon.classList.add('custom-icon');
-                    batteryFill.style.display = 'none';
-                }
-
-                if (pos === 'none') {
-                    batteryPercent.style.display = 'none';
-                } else {
-                    batteryPercent.style.display = 'block';
-                    if (pos === 'outside') {
-                        batteryPercent.classList.add('outside');
-                    } else {
-                        batteryPercent.classList.add('inside');
-                    }
-                }
-
-                if (navigator.getBattery) {
-                    navigator.getBattery().then(battery => {
-                        const level = Math.floor(battery.level * 100);
-                        batteryFill.style.width = `${level}%`;
-                        batteryPercent.textContent = pos === 'outside' ? `${level}%` : level;
-                        batteryFill.classList.toggle('charging', battery.charging);
-                        batteryFill.classList.toggle('low', level <= 20 && !battery.charging);
-                    });
-                }
+            if (navigator.getBattery) {
+                navigator.getBattery().then(battery => {
+                    const batteryFill = document.getElementById('battery-fill');
+                    const batteryPercent = document.getElementById('battery-percent');
+                    if (!batteryFill || !batteryPercent) return;
+                    const level = Math.floor(battery.level * 100);
+                    batteryFill.style.width = `${level}%`;
+                    batteryPercent.textContent = level;
+                    batteryFill.classList.toggle('charging', battery.charging);
+                    batteryFill.classList.toggle('low', level <= 20 && !battery.charging);
+                });
             }
         }
         
@@ -5957,6 +5964,7 @@
             await loadData();
             applyBeautifySettings();
             
+            // Initial page setup
             pageHistory = [appData.settings.beautify.lockScreen.enabled ? 'lock-screen-page' : 'home-screen-page'];
             showPage(pageHistory[0], appData.settings.beautify.lockScreen.enabled ? renderLockScreenPage : renderHomeScreen);
 
@@ -5977,7 +5985,7 @@
 
         // --- NEW: Lock Screen Logic ---
         function renderLockScreenPage(container) {
-            updateSystemUI();
+            updateSystemUI(); // Ensure time is current
             const slideBar = container.querySelector('#slide-to-unlock-bar');
             const slideHandle = container.querySelector('#slide-handle');
             let isDragging = false;
@@ -6130,51 +6138,6 @@
                 saveData(true);
                 applyBeautifySettings();
             };
-        }
-
-        // NEW: Battery Settings
-        function renderBatterySettingsPage(container) {
-            const batterySettings = appData.settings.beautify.battery;
-            container.innerHTML = `
-                <div class="wechat-header">
-                    <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>美化</span></div>
-                    <span class="header-title">电池图标设置</span>
-                </div>
-                <div class="content-area form-page">
-                    <div class="form-group">
-                        <label>数字位置</label>
-                        <select id="battery-pos-select">
-                            <option value="inside" ${batterySettings.numberPosition === 'inside' ? 'selected' : ''}>电池图标内</option>
-                            <option value="outside" ${batterySettings.numberPosition === 'outside' ? 'selected' : ''}>电池图标外</option>
-                            <option value="none" ${batterySettings.numberPosition === 'none' ? 'selected' : ''}>不显示数字</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>自定义电池图标</label>
-                        <img src="${batterySettings.iconUrl || 'https://img.js.design/assets/img/65a881fa383e6a42242a3f33.jpg'}" class="avatar-upload-preview" id="battery-icon-preview">
-                        <input type="text" id="battery-icon-url" placeholder="输入图片URL..." value="${batterySettings.iconUrl || ''}">
-                        <button class="form-btn" style="background-color: #aaa; margin-top: 10px;" onclick="document.getElementById('battery-icon-file').click()">或选择本地文件</button>
-                        <input type="file" id="battery-icon-file" class="file-input" accept="image/*">
-                    </div>
-                    <button class="form-btn" onclick="saveBatterySettings()">保存</button>
-                </div>
-            `;
-
-            document.getElementById('battery-icon-file').onchange = e => {
-                handleImageUpload(e.target.files[0], url => {
-                    document.getElementById('battery-icon-url').value = url;
-                    document.getElementById('battery-icon-preview').src = url;
-                });
-            };
-        }
-
-        function saveBatterySettings() {
-            const b = appData.settings.beautify.battery;
-            b.numberPosition = document.getElementById('battery-pos-select').value;
-            b.iconUrl = document.getElementById('battery-icon-url').value;
-            saveData(true);
-            applyBeautifySettings();
-            updateSystemUI();
         }
 
         // NEW: Toast Notification
