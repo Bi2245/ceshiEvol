@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>ʚiɞPhone</title>
+    <title>ʚiɞl7xPhone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style id="global-theme-style"></style> <!-- 全局自定义主题注入点 -->
     <style>
@@ -499,8 +499,8 @@
         .forum-tab-item.active { color: var(--wechat-green); }
         .forum-tab-item i { font-size: 22px; }
         .forum-tab-item span { font-size: 10px; }
-        #forum-home-page .content-area { position: relative; }
-        .create-post-fab { position: absolute; bottom: 20px; right: 20px; width: 56px; height: 56px; background-color: var(--wechat-green); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; z-index: 50; }
+        #forum-home-page .content-area, #forum-following-page .content-area { position: relative; }
+        .create-post-fab { position: absolute; bottom: 70px; right: 20px; width: 56px; height: 56px; background-color: var(--wechat-green); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; z-index: 50; }
         .forum-post { background-color: var(--wechat-nav-bg); padding: 15px; border-bottom: 1px solid var(--wechat-border-color); cursor: pointer; }
         .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .post-header .avatar { width: 40px; height: 40px; border-radius: var(--avatar-shape); }
@@ -734,7 +734,7 @@
     <script>
         // ========== 通用数据管理器 (IndexedDB) ==========
         class UniversalDataManager {
-            constructor(dbName = 'WeChatSimulatorDB_v22', storeName = 'appDataStore') { // Version bump
+            constructor(dbName = 'WeChatSimulatorDB_v23', storeName = 'appDataStore') { // Version bump
                 this.dbName = dbName;
                 this.storeName = storeName;
                 this.db = null;
@@ -911,7 +911,7 @@
             },
             longTermMemory: {},
             activeChat: { id: null, type: null },
-            version: '22.0' // Version bump
+            version: '23.0' // Version bump
         };
 
         async function loadData() {
@@ -971,6 +971,7 @@
                     if (c.forumFollowers === undefined) c.forumFollowers = Math.floor(Math.random() * 10000);
                     if (c.forumFollowing === undefined) c.forumFollowing = Math.floor(Math.random() * 500);
                     if (c.chatSettings === undefined) c.chatSettings = { background: '', userAvatar: '', charAvatar: '' };
+                    if (!c.wallet) c.wallet = { balance: Math.floor(Math.random() * 500000) }; // Give chars some money
                 });
                 
                 // Default follow all chars
@@ -1439,7 +1440,8 @@
                             boundPersonaId: null, isCouple: false,
                             pokeSettings: { userToChar: { action: '拍了拍', suffix: '' }, charToUser: { action: '拍了拍', suffix: '' } },
                             forumFollowers: Math.floor(Math.random() * 10000), forumFollowing: Math.floor(Math.random() * 500),
-                            chatSettings: { background: '', userAvatar: '', charAvatar: '' }
+                            chatSettings: { background: '', userAvatar: '', charAvatar: '' },
+                            wallet: { balance: Math.floor(Math.random() * 500000) }
                         };
                         appData.contacts.push(newContact);
                         // Auto-follow new contact
@@ -1669,7 +1671,11 @@
                     return;
                 }
                 if (msg.type === 'system') {
-                    html += `<div class="message-system">${msg.content.content}</div>`;
+                    if (msg.content.type === 'couple_accepted') {
+                        html += `<div class="message-system"><i class="fas fa-heart" style="color: #FF69B4;"></i> ${msg.content.content}</div>`;
+                    } else {
+                        html += `<div class="message-system">${msg.content.content}</div>`;
+                    }
                     return;
                 }
 
@@ -1776,12 +1782,14 @@
                     break;
                 case 'transfer':
                     let transferFooter = '微信转账';
-                    if (chatType === 'group') {
+                    if (msg.content.status === 'returned') {
+                        transferFooter = '转账已退回';
+                    } else if (chatType === 'group') {
                         const group = appData.groups.find(g => g.id == chatId);
                         const recipientName = group.members.find(m => m.id == msg.content.recipientId)?.name || '成员';
                         transferFooter = `转账给 ${recipientName}`;
                     }
-                    bubbleContent = `<div class="main"><i class="fas fa-exchange-alt icon"></i><div class="details"><span class="amount">¥${parseFloat(msg.content.amount).toFixed(2)}</span><span class="remark">已转账</span></div></div><div class="footer">${transferFooter}</div>`;
+                    bubbleContent = `<div class="main"><i class="fas fa-exchange-alt icon"></i><div class="details"><span class="amount">¥${parseFloat(msg.content.amount).toFixed(2)}</span><span class="remark">${msg.content.remark || '已转账'}</span></div></div><div class="footer">${transferFooter}</div>`;
                     bubbleClass = 'transfer-bubble';
                     break;
                 case 'redPacket':
@@ -1910,7 +1918,7 @@
                     break;
                 case 'forward':
                     const originalChat = appData.groups.find(g => g.id == msg.content.originalChatId) || appData.contacts.find(c => c.id == msg.content.originalChatId);
-let forwardTitle = '聊天记录';
+                    let forwardTitle = '聊天记录';
                     if (originalChat) {
                         if (msg.content.originalChatType === 'group') {
                             forwardTitle = `${originalChat.name}的聊天记录`;
@@ -4542,7 +4550,7 @@ let forwardTitle = '聊天记录';
                     const returnedAmount = message.content.amount / message.content.count;
                     const returnMsg = {
                         id: Date.now(), sender: appData.user.id, type: 'transfer',
-                        content: { amount: returnedAmount, remark: `已退回 ${returnedAmount.toFixed(2)}`, status: 'sent' },
+                        content: { amount: returnedAmount, remark: `已退回 ${returnedAmount.toFixed(2)}`, status: 'returned' },
                         timestamp: Date.now()
                     };
                     conversation.push(returnMsg);
@@ -4583,6 +4591,10 @@ let forwardTitle = '聊天记录';
 
                 document.getElementById('transfer-return-btn').onclick = () => {
                     message.content.status = 'returned';
+                    const char = appData.contacts.find(c => c.id == message.sender);
+                    if (char && char.wallet) {
+                        char.wallet.balance += parseFloat(message.content.amount);
+                    }
                     const systemMsg = { id: Date.now(), type: 'system', content: { content: `${appData.user.nickname} 已退回转账` }, timestamp: Date.now() };
                     conversation.push(systemMsg);
                     saveData();
@@ -5919,20 +5931,29 @@ let forwardTitle = '聊天记录';
             const invitationMsg = conversation.find(m => m.id === messageId);
             if (!invitationMsg) return;
 
-            invitationMsg.type = 'system';
-            invitationMsg.content.content = accepted ? `${appData.user.nickname} 同意了情侣邀请` : `${appData.user.nickname} 拒绝了情侣邀请`;
+            // Remove the invitation bubble
+            const msgIndex = conversation.findIndex(m => m.id === messageId);
+            if (msgIndex > -1) conversation.splice(msgIndex, 1);
 
             if (accepted) {
-                appData.contacts.forEach(c => c.isCouple = false);
+                appData.contacts.forEach(c => c.isCouple = false); // Ensure only one couple relationship
                 chat.isCouple = true;
                 const systemMsg = { 
                     id: Date.now(), 
                     type: 'system', 
-                    content: { content: `你和 ${chat.name} 已成为情侣！` }, 
+                    content: { type: 'couple_accepted', content: `你和 ${chat.name} 已成为情侣！` }, 
                     timestamp: Date.now() 
                 };
                 conversation.push(systemMsg);
                 showToast(`你和 ${chat.name} 已成为情侣！`, 'success');
+            } else {
+                const systemMsg = { 
+                    id: Date.now(), 
+                    type: 'system', 
+                    content: { content: `你拒绝了 ${chat.name} 的情侣邀请` }, 
+                    timestamp: Date.now() 
+                };
+                conversation.push(systemMsg);
             }
             
             await saveData();
@@ -6802,8 +6823,8 @@ let forwardTitle = '聊天记录';
                 ]`;
                 
                 const allPossibleAuthors = [...appData.contacts, appData.user];
-                const reply = await callApi(appData.user.id, 'wechat', prompt); // Use a generic context for this
-                const newPostsData = JSON.parse(reply[0]);
+                const reply = (await getAiReply(appData.user.id, 'wechat', prompt))[0]; // Use a generic context for this
+                const newPostsData = JSON.parse(reply);
 
                 const newPosts = newPostsData.map(postData => {
                     let author;
@@ -7015,7 +7036,7 @@ let forwardTitle = '聊天记录';
             saveData(true, goBack);
         }
 
-function renderForumPostDetailPage(container, postId) {
+        function renderForumPostDetailPage(container, postId) {
             const post = appData.forum.posts.find(p => p.id == postId);
             if (!post) { goBack(); return; }
             const author = post.authorId === appData.user.id ? appData.user : appData.contacts.find(c => c.id == post.authorId);
@@ -7095,8 +7116,8 @@ function renderForumPostDetailPage(container, postId) {
               ...
             ]`;
             try {
-                const reply = await getAiReply(post.authorId, 'wechat', prompt);
-                const newCommentsData = JSON.parse(reply[0]);
+                const reply = (await getAiReply(post.authorId, 'wechat', prompt))[0];
+                const newCommentsData = JSON.parse(reply);
                 const newComments = newCommentsData.map(c => {
                     const author = appData.contacts.find(contact => contact.id == c.authorId) || appData.contacts[0];
                     return {
