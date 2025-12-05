@@ -1480,7 +1480,6 @@
                 <div class="content-area">
                     <img src="${avatarSrc}" class="avatar-upload-preview" id="editor-avatar-preview" onclick="document.getElementById('editor-avatar-input').click()">
                     <input type="file" id="editor-avatar-input" class="file-input" accept="image/*">
-                    
                     <div class="form-group">
                         <label>${isUser ? '网名昵称' : '名字'}</label>
                         <input type="text" id="editor-name" value="${target ? (isUser ? target.nickname : target.name) : ''}">
@@ -1992,7 +1991,7 @@
                     break;
                 case 'redPacket':
                     let packetStatus = msg.content.claimed.includes(appData.user.id) ? '已领取' : '点击领取红包';
-                    if (msg.content.claimed.length >= msg.content.count) packetStatus = '红包已被领完';
+                    if (message.content.claimed.length >= message.content.count) packetStatus = '红包已被领完';
                     bubbleContent = `<div class="main"><i class="fas fa-envelope icon"></i><div class="details"><span class="remark">${msg.content.remark}</span><span class="amount" style="font-size: 14px;">${packetStatus}</span></div></div><div class="footer">微信红包</div>`;
                     bubbleClass = 'redpacket-bubble';
                     additionalAttributes += ` onclick="handleBubbleClick('redPacket', ${msg.id}, '${chatId}', '${chatType}', '${source}')"`;
@@ -4001,7 +4000,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         function confirmForward(targetChatId, targetChatType, messageIds, currentChatId, currentChatType, source) {
             let currentChat = currentChatType === 'group' ? appData.groups.find(g => g.id == currentChatId) : appData.contacts.find(c => c.id == currentChatId);
-            const conversation = source === 'wechat' ? currentChat.conversation : currentChat.conversation;
+            const conversation = source=== 'wechat' ? currentChat.conversation : currentChat.conversation;
             const messagesToForward = conversation.filter(m => messageIds.includes(m.id)).slice(0, 100);
 
             if (messagesToForward.length === 0) { showToast('没有可转发的消息。', 'error'); return; }
@@ -5525,32 +5524,58 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
             };
         }
 
+        // HTML美化大师: 全新优化的“戳一戳”逻辑核心
         function triggerPoke(chatId, chatType, targetId, source, pokerId = appData.user.id) {
             let chat = chatType === 'group' ? appData.groups.find(g => g.id == chatId) : appData.contacts.find(c => c.id == chatId);
             if (!chat) return;
             const conversation = source === 'wechat' ? chat.conversation : chat.conversation;
 
-            const isUserPoking = pokerId === appData.user.id;
-            const contact = appData.contacts.find(c => c.id == (isUserPoking ? targetId : chatId));
-            if (!contact) return;
-            
-            let pokeSetting, pokerName, targetName;
+            let poker, poked;
+            let pokerName, pokedName;
+            let pokeSetting;
 
-            if (pokerId === targetId) { // Poking self
-                pokerName = appData.user.nickname;
-                targetName = '自己';
-                pokeSetting = contact.pokeSettings.userToChar;
-            } else if (isUserPoking) { // User pokes char
-                pokerName = appData.user.nickname;
-                targetName = contact.remark || contact.name;
-                pokeSetting = contact.pokeSettings.userToChar;
-            } else { // Char pokes user
-                pokerName = contact.remark || contact.name;
-                targetName = appData.user.nickname;
-                pokeSetting = contact.pokeSettings.charToUser;
+            // 识别戳人者和被戳者
+            if (pokerId == appData.user.id) {
+                poker = appData.user;
+                pokerName = poker.nickname;
+            } else {
+                poker = appData.contacts.find(c => c.id == pokerId);
+                if (!poker) return; // 如果在群聊中找不到戳人者（可能数据不一致），则中止
+                pokerName = poker.remark || poker.name;
             }
 
-            const pokeText = `${pokerName} ${pokeSetting.action}了 ${targetName} ${pokeSetting.suffix}`;
+            if (targetId == appData.user.id) {
+                poked = appData.user;
+                pokedName = poked.nickname;
+            } else {
+                poked = appData.contacts.find(c => c.id == targetId);
+                if (!poked) return; // 如果找不到被戳者，则中止
+                pokedName = poked.remark || poked.name;
+            }
+
+            // 根据交互关系，精准定位戳一戳的设定
+            if (pokerId == appData.user.id && targetId != appData.user.id) {
+                // 用户 戳 角色
+                pokeSetting = poked.pokeSettings.userToChar;
+            } else if (pokerId != appData.user.id && targetId == appData.user.id) {
+                // 角色 戳 用户
+                pokeSetting = poker.pokeSettings.charToUser;
+            } else if (pokerId != appData.user.id && targetId != appData.user.id && pokerId != targetId) {
+                // 角色 戳 另一个角色 (群聊场景)
+                // 逻辑：A戳B，使用A对用户的戳一戳设定作为默认行为
+                pokeSetting = poker.pokeSettings.charToUser; 
+            } else if (pokerId == targetId) {
+                // 自己戳自己
+                pokerName = (pokerId == appData.user.id) ? appData.user.nickname : poker.name;
+                pokedName = "自己";
+                // 逻辑：用户戳自己，使用对角色的默认设定；角色戳自己，也使用对角色的设定
+                pokeSetting = (pokerId == appData.user.id) ? { action: '拍了拍', suffix: '' } : poker.pokeSettings.userToChar;
+            } else {
+                // 兜底，以防万一
+                pokeSetting = { action: '拍了拍', suffix: '' };
+            }
+
+            const pokeText = `${pokerName} ${pokeSetting.action}了 ${pokedName} ${pokeSetting.suffix}`;
             
             const systemMsg = {
                 id: Date.now(), type: 'system',
@@ -7418,7 +7443,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
             - 禁止脱离原帖时空背景编造假信息。
             - 禁止长篇鸡汤或说教，评论的核心是参与感与观察趣味，不是教育别人。
 
-            请严格按照以下txt文本格式返回一个包含评论对象的数组，不要添加任何额外解释：
+            请严格按照以下JSON格式返回一个包含评论对象的数组，不要添加任何额外解释：
             [
               {
                 "authorId": "随机选择一个角色的ID",
@@ -7429,7 +7454,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
             try {
                 const reply = (await getAiReply(post.authorId, 'wechat', prompt))[0];
                 const jsonString = reply.substring(reply.indexOf('['), reply.lastIndexOf(']') + 1);
-                const newCommentsData = txt.parse(jsonString);
+                const newCommentsData = JSON.parse(jsonString);
                 const newComments = newCommentsData.map(c => {
                     const author = appData.contacts.find(contact => contact.id == c.authorId) || appData.contacts[0];
                     return {
