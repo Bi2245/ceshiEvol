@@ -928,7 +928,7 @@
                 const savedData = await dataManager.loadData(DATA_KEY);
                 appData = savedData ? savedData : JSON.parse(JSON.stringify(defaultAppData));
                 
-                // --- Data migration and validation (FIREWALL) ---
+                // HTML美化大师: 强化数据迁移与验证防火墙
                 if (!appData.version || parseFloat(appData.version) < 24.0) {
                     // This block is for migrating data from older versions
                     if (!appData.forum) appData.forum = JSON.parse(JSON.stringify(defaultAppData.forum));
@@ -1016,9 +1016,11 @@
         // --- Navigation ---
         let pageHistory = ['home-screen-page'];
         function showPage(pageId, renderFunc, ...args) {
+            // HTML美化大师: 导航防火墙
             const pageElement = document.getElementById(pageId);
             if (!pageElement) {
                 console.error(`Navigation Firewall: Page with ID "${pageId}" not found.`);
+                showToast(`错误：找不到页面 ${pageId}`, 'error');
                 return;
             }
 
@@ -1037,6 +1039,7 @@
                     renderFunc(pageElement, ...args);
                 } catch (e) {
                     console.error(`Render Firewall: Error rendering page "${pageId}".`, e);
+                    showToast(`页面渲染失败: ${pageId}`, 'error');
                     goBack();
                     return;
                 }
@@ -1063,6 +1066,7 @@
                 previousPageEl.classList.add('active');
             }
             
+            // HTML美化大师: 确保返回时主界面内容正确刷新
             if (previousPageId === 'wechat-app-page') {
                 const activeTab = document.querySelector('#wechat-app-page .tab-item.active');
                 if (activeTab) renderMainContent(activeTab.dataset.page);
@@ -1074,8 +1078,12 @@
 
         // --- Rendering Functions ---
         function renderHomeScreen(container) {
+            // HTML美化大师: 渲染防火墙
+            if (!container) return;
             const icons = appData.settings.beautify.appIcons;
-            container.querySelector('#app-grid').innerHTML = `
+            const appGrid = container.querySelector('#app-grid');
+            if (!appGrid) return;
+            appGrid.innerHTML = `
                 <div class="app-icon" onclick="showPage('wechat-app-page', renderWechatApp)">
                     <div class="icon-bg" style="background-image: url('${icons.wechat}')"></div>
                     <span class="app-name">WeChat</span>
@@ -1097,6 +1105,7 @@
         }
 
         function renderWechatApp(container) {
+            if (!container) return;
             const activeTab = container.querySelector('.tab-item.active');
             renderMainContent(activeTab ? activeTab.dataset.page : 'chat-list');
         }
@@ -1106,6 +1115,7 @@
             const header = document.getElementById('main-header');
             const plusBtn = document.getElementById('main-plus-btn');
             
+            // HTML美化大师: 渲染防火墙
             if (!contentArea || !header || !plusBtn) return;
             
             contentArea.innerHTML = '';
@@ -1150,10 +1160,12 @@
         }
 
         function renderChatListPage(container) {
+            if (!container) return;
             let html = '<div class="list-view">';
             const visibleContacts = appData.contacts.filter(c => !appData.settings.blacklist.includes(c.id));
             const allChats = [...visibleContacts.map(c => ({...c, type: 'individual'})), ...appData.groups.map(g => ({...g, type: 'group'}))];
             
+            // HTML美化大师: 稳定的列表排序逻辑，确保UI一致性
             const sortedChats = [...allChats].sort((a, b) => {
                 if (a.isPinned && !b.isPinned) return -1;
                 if (!a.isPinned && b.isPinned) return 1;
@@ -1222,6 +1234,7 @@
         }
 
         function renderContactsPage(container) {
+            if (!container) return;
             let html = '<div class="list-view">';
             const visibleContacts = appData.contacts.filter(c => !appData.settings.blacklist.includes(c.id));
             visibleContacts.forEach(contact => {
@@ -1240,6 +1253,7 @@
         }
 
         function renderMePage(container) {
+            if (!container) return;
             const user = appData.user;
             container.innerHTML = `
                 <div class="me-profile-card" onclick="showPage('editor-page', renderEditorPage, 'user')">
@@ -1282,6 +1296,7 @@
         }
 
         function renderSettingsAppPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i></div>
@@ -1355,6 +1370,7 @@
         }
 
         function renderDisplaySettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -1382,6 +1398,7 @@
         }
 
         function renderWorldbookAppPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i></div>
@@ -1406,6 +1423,7 @@
         }
 
         function renderEditorPage(container, type, id = null) {
+            if (!container) return;
             const isUser = type === 'user';
             const target = isUser ? appData.user : appData.contacts.find(c => c.id == id);
             const title = isUser ? "编辑我的信息" : (target ? "编辑角色信息" : "新建角色");
@@ -1487,7 +1505,7 @@
                             wallet: { balance: Math.floor(Math.random() * 500000) }
                         };
                         appData.contacts.push(newContact);
-                        // Auto-follow new contact
+                        // HTML美化大师: 新增角色时，自动在论坛中关注
                         if (!appData.user.forumProfile.following.includes(newContact.id)) {
                             appData.user.forumProfile.following.push(newContact.id);
                         }
@@ -1507,8 +1525,10 @@
             } else {
                 chat = appData.contacts.find(c => c.id == chatId);
             }
+            // HTML美化大师: 聊天防火墙
             if (!chat) {
                 console.error(`Chat Firewall: Chat not found (ID: ${chatId}, Type: ${chatType})`);
+                showToast('找不到该聊天', 'error');
                 goBack();
                 return;
             }
@@ -2021,6 +2041,7 @@
         }
         
         function renderWalletPage(container) {
+            if (!container) return;
             const wallet = appData.user.wallet;
             const currentCurrency = wallet.currency;
 
@@ -2065,6 +2086,7 @@
         }
 
         function renderTransactionsPage(container) {
+            if (!container) return;
             let html = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>钱包</span></div>
@@ -2118,6 +2140,7 @@
         }
 
         function renderChatModePage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -2144,6 +2167,7 @@
         }
 
         function renderTimestampSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -2178,6 +2202,7 @@
         }
 
         function renderBackgroundInteractionPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -2385,6 +2410,7 @@
         }
 
         function renderBeautifyPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -2456,6 +2482,7 @@
         }
 
         function renderThemeSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -2503,6 +2530,7 @@
         }
 
         function renderScreenSizeSettingsPage(container) {
+            if (!container) return;
             const b = appData.settings.beautify;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -2530,6 +2558,7 @@
         }
 
         function renderPhoneFrameSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -2563,6 +2592,7 @@
         }
 
         function renderAvatarShapeSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -2590,6 +2620,7 @@
         }
 
         function renderFontSettingsPage(container) {
+            if (!container) return;
             const b = appData.settings.beautify;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -2648,6 +2679,7 @@
         }
 
         function renderFrameSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -2709,6 +2741,7 @@
         }
 
         function renderBubbleSettingsPage(container) {
+            if (!container) return;
             let currentSlot = 0;
             const loadSlot = (slotIndex) => {
                 currentSlot = slotIndex;
@@ -2785,6 +2818,7 @@
         }
 
         function renderRedPacketBubbleSettingsPage(container) {
+            if (!container) return;
             const exampleCss = `/* 红包气泡示例CSS */\n.message-bubble.redpacket-bubble {\n  background: linear-gradient(135deg, #ff7e5f, #feb47b) !important;\n  border-radius: 12px;\n}\n.message-bubble.redpacket-bubble .icon {\n  color: white;\n  text-shadow: 0 1px 2px rgba(0,0,0,0.2);\n}`;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -2810,6 +2844,7 @@
         }
 
         function renderTransferBubbleSettingsPage(container) {
+            if (!container) return;
             const exampleCss = `/* 转账气泡示例CSS */\n.message-bubble.transfer-bubble {\n  background: linear-gradient(to right, #4facfe, #00f2fe) !important;\n  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);\n}\n.message-bubble.transfer-bubble .amount {\n  color: #fff;\n  font-weight: bold;\n}`;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -2846,6 +2881,7 @@
         }
 
         function renderApiSettingsPage(container) {
+            if (!container) return;
             const providers = {
                 'openai': 'OpenAI', 'claude': 'Claude (Anthropic)', 'gemini': 'Gemini (Google AI Studio)',
                 'deepseek': 'DeepSeek', 'openrouter': 'OpenRouter', 'grok': 'Grok (xAI)',
@@ -2960,6 +2996,7 @@
         }
 
         function renderStickerPage(container, isManagement = false, source = 'wechat') {
+            if (!container) return;
             const activeChatId = source === 'wechat' ? appData.activeChat.id : appData.forum.activeChat.id;
             let headerHtml = isManagement ? `
                 <div class="wechat-header">
@@ -3158,6 +3195,7 @@
                         details = type === 'transfer' ? `转账给 ${recipientName}` : `发红包给 ${recipientName}`;
                     }
 
+                    // HTML美化大师: 动态钱包核心逻辑
                     wallet.balance -= amountCNY;
                     wallet.transactions.push({ type: title, amount: -amountCNY, details, timestamp: Date.now() });
                     
@@ -3961,6 +3999,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         
         // --- Moments Feature ---
         function renderMomentsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header" style="background: transparent; border: none; position: absolute; top: 30px; left: 0; right: 0; z-index: 5;">
                     <div class="header-left header-back-btn" onclick="goBack()" style="color: white;"><i class="fas fa-chevron-left"></i></div>
@@ -4124,6 +4163,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderCreateMomentPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()">取消</div>
@@ -4276,6 +4316,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- Chat Settings ---
         function renderChatSettingsPage(container, contactId) {
+            if (!container) return;
             const contact = appData.contacts.find(c => c.id == contactId);
             if (!contact) { goBack(); return; }
 
@@ -4423,6 +4464,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderBlacklistPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -4464,6 +4506,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- Data Management ---
         function renderDataManagementPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -4581,6 +4624,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
                 document.getElementById('redpacket-claim-btn').onclick = () => {
                     const amountPerPerson = message.content.amount / message.content.count;
+                    // HTML美化大师: 动态钱包核心逻辑
                     appData.user.wallet.balance += amountPerPerson;
                     const senderName = chatType === 'group' ? (chat.members.find(m => m.id === message.sender)?.name || '群成员') : (chat.remark || chat.name);
                     appData.user.wallet.transactions.push({ type: '红包', amount: amountPerPerson, details: `收到${senderName}的红包`, timestamp: Date.now() });
@@ -4629,6 +4673,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
                 document.getElementById('transfer-claim-btn').onclick = () => {
                     const amount = parseFloat(message.content.amount);
+                    // HTML美化大师: 动态钱包核心逻辑
                     appData.user.wallet.balance += amount;
                     const senderName = chatType === 'group' ? (chat.members.find(m => m.id === message.sender)?.name || '群成员') : (chat.remark || chat.name);
                     appData.user.wallet.transactions.push({ type: '转账', amount: amount, details: `收到${senderName}的转账`, timestamp: Date.now() });
@@ -4665,7 +4710,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
             const message = conversation.find(m => m.id == messageId);
             if (!message || message.type !== 'forward') return;
 
-            const modalId = 'view-forwarded-messages-modal';
+            constmodalId = 'view-forwarded-messages-modal';
             
             const messagesHtml = message.content.messages.map(msg => {
                 const isSent = msg.sender === appData.user.id;
@@ -4696,6 +4741,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- Group Chat Functions ---
         function renderCreateGroupChatPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -4772,6 +4818,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderGroupChatSettingsPage(container, groupId) {
+            if (!container) return;
             const group = appData.groups.find(g => g.id == groupId);
             if (!group) { goBack(); return; }
             const isUserAdmin = group.adminIds.includes(appData.user.id);
@@ -4945,6 +4992,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderGroupMemberManagementPage(container, groupId) {
+            if (!container) return;
             const group = appData.groups.find(g => g.id == groupId);
             if (!group) { goBack(); return; }
             const isUserAdmin = group.adminIds.includes(appData.user.id);
@@ -4963,6 +5011,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         function renderGroupMembersList(groupId) {
             const group = appData.groups.find(g => g.id == groupId);
             const listContainer = document.getElementById('group-members-list');
+            if (!listContainer) return;
             const isUserAdmin = group.adminIds.includes(appData.user.id);
 
             listContainer.innerHTML = group.members.map(member => {
@@ -5056,6 +5105,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         audioPlayer.onended = () => playNextSong();
 
         function renderMusicLibraryPage(container, source = 'wechat') {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -5192,6 +5242,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderMusicPlayerPage(container) {
+            if (!container) return;
             const currentSong = appData.music.library.find(s => s.id === appData.music.currentSongId);
             if (!currentSong) {
                 container.innerHTML = '<div class="wechat-header"><div class="header-left header-back-btn" onclick="goBack()"></div></div><div class="content-area" style="text-align:center; padding-top: 50%;">暂无播放歌曲</div>';
@@ -5241,6 +5292,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderMusicSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -5256,6 +5308,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderPlayerBeautifyPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -5290,6 +5343,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- Long Term Memory & Diary ---
         function renderLongTermMemoryPage(container, contactId) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -5305,6 +5359,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         async function generateAndRenderMemory(contactId) {
             const contact = appData.contacts.find(c => c.id == contactId);
             const memoryList = document.getElementById('memory-list');
+            if (!memoryList) return;
             try {
                 const history = contact.conversation.slice(-100).map(m => `${m.sender === 'me' ? appData.user.nickname : contact.name}: ${m.content.content}`).join('\n');
                 const prompt = `请以客观的第三人称视角，总结本次聊天记录中的关键事件、地点变更和人物关系变化。可以掺杂个人感情，像写日记一样，要贴合自己的人设，结合聊天记录中的话题和事件，请分条列出每条不超过100字。总计字数上限5000字。\n\n聊天记录：\n${history}`;
@@ -5316,6 +5371,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderDiaryPage(container, chatId) {
+            if (!container) return;
             const contact = appData.contacts.find(c => c.id == chatId);
             container.innerHTML = `
                 <div class="wechat-header">
@@ -5332,6 +5388,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         async function generateAndRenderDiary(chatId) {
             const contact = appData.contacts.find(c => c.id == chatId);
             const diaryContent = document.getElementById('diary-content');
+            if (!diaryContent) return;
             try {
                 const history = contact.conversation.slice(-100).map(m => `${m.sender === appData.user.id ? appData.user.nickname : contact.name}: ${m.content.content}`).join('\n');
                 const prompt = `请你以【${contact.name}】的身份和第一人称视角，结合你的角色设定(${contact.persona})以及下面的聊天记录，写一篇日记。日记内容要完全贴合你的人设，可以是对聊天内容的感想，也可以是基于聊天内容发散出的、符合你身份的日常记录或心理活动。字数上限5000字。\n\n聊天记录：\n${history}`;
@@ -5344,6 +5401,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- Poke Feature ---
         function renderPokeSettingsPage(container, contactId) {
+            if (!container) return;
             const contact = appData.contacts.find(c => c.id == contactId);
             if (!contact) { goBack(); return; }
             
@@ -5482,6 +5540,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // 全局自定义主题
         function renderGlobalThemeEditorPage(container) {
+            if (!container) return;
             let currentSlot = appData.settings.beautify.activeGlobalThemeSlot > -1 ? appData.settings.beautify.activeGlobalThemeSlot : 0;
 
             const loadSlot = (slotIndex) => {
@@ -5546,6 +5605,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // 银行卡
         function renderBankCardPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>钱包</span></div>
@@ -5558,6 +5618,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         function renderBankCards() {
             const listContainer = document.getElementById('bank-card-list');
+            if (!listContainer) return;
             let html = '';
             appData.user.bankCards.forEach(card => {
                 html += `
@@ -5669,6 +5730,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // 查看对方余额
         async function showCharBalancePage(container, charId) {
+            if (!container) return;
             const contact = appData.contacts.find(c => c.id == charId);
             container.innerHTML = `
                 <div class="wechat-header">
@@ -5841,6 +5903,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function processPurchase(type, chatId, name, price, recipient) {
+            // HTML美化大师: 动态钱包核心逻辑
             if (appData.user.wallet.balance < price) {
                 showToast('余额不足！', 'error');
                 return;
@@ -5862,6 +5925,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // User自设
         function renderSelfPersonaListPage(container) {
+            if (!container) return;
             const personas = appData.user.personas || [];
             const defaultPersonaId = appData.user.defaultPersonaId;
             container.innerHTML = `
@@ -5885,6 +5949,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderSelfPersonaEditorPage(container, personaId = null) {
+            if (!container) return;
             const persona = personaId ? appData.user.personas.find(p => p.id === personaId) : null;
             const isDefault = persona && appData.user.defaultPersonaId === persona.id;
             container.innerHTML = `
@@ -6014,6 +6079,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // 角色语言设置
         function renderLanguageSettingsPage(container) {
+            if (!container) return;
             const languages = {
                 'zh-CN': '简体中文', 'zh-TW': '繁体中文 (台湾)', 'zh-HK': '繁体中文 (香港)', 'zh-MO': '繁体中文 (澳门)',
                 'en': 'English (英语)', 'ja': '日本語 (日语)', 'ko': '한국어 (韩语)', 'de': 'Deutsch (德语)',
@@ -6051,6 +6117,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // 储存空间
         function renderStorageSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -6091,6 +6158,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // 聊天提示音
         function renderNotificationSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>设置</span></div>
@@ -6162,6 +6230,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderVoiceCallPage(container, chatId, initiator) {
+            if (!container) return;
             const contact = appData.contacts.find(c => c.id == chatId);
             container.innerHTML = `
                 <div class="voice-call-container" style="background-image: url('${contact.avatar}')">
@@ -6299,6 +6368,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- 主屏幕美化 ---
         function renderWallpaperSettingsPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()"><i class="fas fa-chevron-left"></i><span>返回</span></div>
@@ -6339,6 +6409,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderAppIconSettingsPage(container) {
+            if (!container) return;
             const icons = appData.settings.beautify.appIcons;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -6367,6 +6438,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderAppLayoutSettingsPage(container) {
+            if (!container) return;
             const b = appData.settings.beautify;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -6516,6 +6588,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- Lock Screen Logic ---
         function renderLockScreenPage(container) {
+            if (!container) return;
             updateSystemUI();
             const slideBar = container.querySelector('#slide-to-unlock-bar');
             const slideHandle = container.querySelector('#slide-handle');
@@ -6564,6 +6637,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderPasswordEntryPage(container) {
+            if (!container) return;
             const numpad = container.querySelector('#numpad');
             const dots = container.querySelectorAll('.password-dot');
             let enteredPassword = '';
@@ -6605,6 +6679,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderLockScreenSettingsPage(container) {
+            if (!container) return;
             const lockSettings =appData.settings.beautify.lockScreen;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -6645,6 +6720,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- Font Color Settings ---
         function renderFontColorSettingsPage(container) {
+            if (!container) return;
             const b = appData.settings.beautify;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -6673,6 +6749,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         // --- Battery Settings ---
         function renderBatterySettingsPage(container) {
+            if (!container) return;
             const batterySettings = appData.settings.beautify.batteryIcon;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -6756,6 +6833,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         function renderNotifications() {
             const list = document.getElementById('notification-list');
+            if (!list) return;
             if (appData.notifications.length === 0) {
                 list.innerHTML = '<p style="text-align:center; color:white; opacity:0.7; margin-top: 50px;">无新通知</p>';
                 return;
@@ -6812,6 +6890,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         // =====================================================================
 
         function renderForumApp(container) {
+            if (!container) return;
             const activeTab = container.querySelector('.forum-tab-item.active');
             renderForumMainContent(activeTab ? activeTab.dataset.page : 'forum-home');
         }
@@ -6844,6 +6923,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderForumHomePage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div id="forum-feed-container"></div>
                 <div class="create-post-fab" onclick="showPage('forum-create-post-page', renderForumCreatePostPage)">
@@ -6857,6 +6937,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
             }
         }
 
+        // HTML美化大师: 全新重构的论坛刷新逻辑
         async function refreshForumPosts() {
             const container = document.getElementById('forum-feed-container');
             if (!container) return;
@@ -6922,7 +7003,9 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
                 
                 let newPostsData;
                 try {
-                    newPostsData = JSON.parse(reply);
+                    // HTML美化大师: 增强JSON解析的防火墙
+                    const jsonString = reply.substring(reply.indexOf('['), reply.lastIndexOf(']') + 1);
+                    newPostsData = JSON.parse(jsonString);
                     if (!Array.isArray(newPostsData)) throw new Error("API did not return an array.");
                 } catch (e) {
                     console.error("Failed to parse forum posts JSON:", e, "Raw reply:", reply);
@@ -6951,7 +7034,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
                         bookmarks: []
                     };
 
-                    // Simulate follower changes
+                    // HTML美化大师: 模拟粉丝数动态变化
                     if (author.id !== appData.user.id) {
                         const change = Math.floor(Math.random() * 50) - 10; // -10 to +40
                         author.forumFollowers = Math.max(0, (author.forumFollowers || 0) + change);
@@ -6999,6 +7082,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderForumFollowingPage(container) {
+            if (!container) return;
             const followedUserIds = appData.user.forumProfile.following;
             const followedPosts = appData.forum.posts.filter(p => followedUserIds.includes(p.authorId));
             container.innerHTML = '<div id="forum-feed-container"></div>';
@@ -7006,6 +7090,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderForumMePage(container) {
+            if (!container) return;
             const profile = appData.user.forumProfile;
             const userPosts = appData.forum.posts.filter(p => p.authorId === appData.user.id);
             container.innerHTML = `
@@ -7030,6 +7115,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderForumProfilePage(container, charId) {
+            if (!container) return;
             const isUser = charId == appData.user.id;
             if (isUser) {
                 renderForumMePage(document.getElementById('forum-main-content-area'));
@@ -7078,16 +7164,22 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
 
         function toggleForumFollow(charId) {
             const followingList = appData.user.forumProfile.following;
+            const contact = appData.contacts.find(c => c.id == charId);
+            if (!contact) return;
+
             const index = followingList.indexOf(charId);
             if (index > -1) {
                 followingList.splice(index, 1);
+                contact.forumFollowers = Math.max(0, contact.forumFollowers - 1);
             } else {
                 followingList.push(charId);
+                contact.forumFollowers++;
             }
             saveData(true, () => renderForumProfilePage(document.getElementById('forum-profile-page'), charId));
         }
 
         function renderForumProfileEditorPage(container) {
+            if (!container) return;
             const profile = appData.user.forumProfile;
             container.innerHTML = `
                 <div class="wechat-header">
@@ -7115,6 +7207,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderForumCreatePostPage(container) {
+            if (!container) return;
             container.innerHTML = `
                 <div class="wechat-header">
                     <div class="header-left header-back-btn" onclick="goBack()">取消</div>
@@ -7144,6 +7237,7 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
         }
 
         function renderForumPostDetailPage(container, postId) {
+            if (!container) return;
             const post = appData.forum.posts.find(p => p.id == postId);
             if (!post) { goBack(); return; }
             const author = post.authorId === appData.user.id ? appData.user : appData.contacts.find(c => c.id == post.authorId);
@@ -7252,7 +7346,8 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
             ]`;
             try {
                 const reply = (await getAiReply(post.authorId, 'wechat', prompt))[0];
-                const newCommentsData = JSON.parse(reply);
+                const jsonString = reply.substring(reply.indexOf('['), reply.lastIndexOf(']') + 1);
+                const newCommentsData = JSON.parse(jsonString);
                 const newComments = newCommentsData.map(c => {
                     const author = appData.contacts.find(contact => contact.id == c.authorId) || appData.contacts[0];
                     return {
@@ -7294,7 +7389,12 @@ ${isOfflineMode ? '当前为线下剧情模式，请生成一段2000-8000字的�
                 }
                 saveData();
                 if (rerenderList) {
-                    renderForumPosts(appData.forum.posts);
+                    const activeTab = document.querySelector('#forum-app-page .forum-tab-item.active')?.dataset.page;
+                    if (activeTab === 'forum-home') {
+                        renderForumPosts(appData.forum.posts);
+                    } else if (activeTab === 'forum-following') {
+                        renderForumFollowingPage(document.getElementById('forum-main-content-area'));
+                    }
                 } else {
                     renderForumPostDetailPage(document.getElementById('forum-post-detail-page'), postId);
                 }
